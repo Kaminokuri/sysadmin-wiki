@@ -1,137 +1,125 @@
 ---
 title: "Sécurité Réseau"
-description: "Principes fondamentaux et meilleures pratiques pour sécuriser l'infrastructure réseau"
+description: "Guide complet sur la sécurité des réseaux d'entreprise"
 category: "Cybersécurité"
 tags: ["Réseau", "Sécurité", "Firewall", "VPN"]
 level: "Intermédiaire"
-reading_time: "12 min"
-last_updated: "1 août 2025"
+reading_time: "20 min"
+last_updated: "31 juillet 2025"
 author: "Mathéo Fauvel"
 ---
 
-# Sécurité Réseau
+# 🔒 Sécurité Réseau
 
-## Introduction
+## Vue d'ensemble
 
-La sécurité réseau constitue la première ligne de défense de toute infrastructure informatique. Elle englobe l'ensemble des mesures techniques et organisationnelles visant à protéger les données et les ressources contre les accès non autorisés.
+La sécurité réseau est un pilier fondamental de la cybersécurité en entreprise. Elle englobe toutes les mesures de protection des données en transit et des infrastructures réseau.
 
-## Principes Fondamentaux
+## 🛡️ Principes Fondamentaux
 
 ### Défense en Profondeur
-
-La sécurité réseau repose sur une approche multicouche :
-
 - **Périmètre** : Firewalls, IDS/IPS
-- **Réseau interne** : Segmentation, VLANs
-- **Endpoints** : Antivirus, EDR
-- **Applications** : WAF, authentification
+- **Segmentation** : VLANs, zones DMZ
+- **Contrôle d'accès** : NAC, 802.1X
+- **Chiffrement** : TLS/SSL, VPN
 
 ### Modèle Zero Trust
+- Vérification continue
+- Principe du moindre privilège
+- Micro-segmentation
 
-> **Note:** Le modèle Zero Trust part du principe qu'aucun utilisateur ou dispositif ne doit être automatiquement approuvé.
+## 🔥 Firewalls
 
-## Configuration Firewall
+### Types de Firewalls
+1. **Filtrage de paquets**
+2. **Firewalls applicatifs**
+3. **Next Generation Firewalls (NGFW)**
+4. **Web Application Firewalls (WAF)**
 
-### Règles de Base
-
+### Configuration Best Practices
 ```bash
-# Bloquer tout le trafic entrant par défaut
-iptables -P INPUT DROP
-
-# Autoriser le trafic sortant
-iptables -P OUTPUT ACCEPT
-
-# Autoriser SSH depuis un réseau spécifique
-iptables -A INPUT -p tcp -s 192.168.1.0/24 --dport 22 -j ACCEPT
-
-# Autoriser HTTP/HTTPS
-iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+# Exemple règles iptables
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -A INPUT -p tcp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+iptables -A INPUT -j DROP
 ```
 
-### Surveillance et Logs
+## 🕵️ Détection d'Intrusion
 
-```bash
-# Activer le logging des connexions rejetées
-iptables -A INPUT -j LOG --log-prefix "DROPPED: "
+### IDS vs IPS
+- **IDS** : Détection passive
+- **IPS** : Prévention active
+- **SIEM** : Corrélation d'événements
 
-# Analyser les logs
-tail -f /var/log/syslog | grep "DROPPED:"
-```
+### Outils Populaires
+- Snort
+- Suricata
+- OSSEC
+- Wazuh
 
-## Segmentation Réseau
+## 🌐 VPN et Accès Distant
 
-| Zone | Description | Accès |
-|------|-------------|-------|
-| DMZ | Serveurs publics | Internet → DMZ |
-| LAN Utilisateurs | Postes de travail | Interne uniquement |
-| LAN Serveurs | Infrastructure critique | Accès contrôlé |
-| Gestion | Equipment réseau | Admin uniquement |
+### Types de VPN
+1. **Site-to-Site**
+2. **Client-to-Site**
+3. **SSL VPN**
+4. **WireGuard**
 
-## VPN et Accès Distant
+### Sécurisation
+- Authentification forte
+- Chiffrement robuste
+- Audit des connexions
 
-### Configuration OpenVPN
-
-```bash
-# Installation
-sudo apt install openvpn easy-rsa
-
-# Génération des certificats
-cd /etc/openvpn/easy-rsa
-./easyrsa init-pki
-./easyrsa build-ca
-./easyrsa gen-req server nopass
-./easyrsa sign-req server server
-```
-
-> **Attention:** Toujours utiliser des certificats avec une durée de vie limitée.
-
-## Monitoring et Détection
-
-### Outils Essentiels
-
-- **Suricata** : IDS/IPS open source
-- **pfSense** : Firewall avec interface web
-- **Security Onion** : Distribution pour SOC
-- **Zeek** : Analyseur de trafic réseau
+## 📊 Monitoring et Analyse
 
 ### Métriques Clés
+- Trafic anormal
+- Tentatives de connexion
+- Latence réseau
+- Utilisation bande passante
 
-```bash
-# Surveillance des connexions
-netstat -tuln | grep LISTEN
+### Outils de Monitoring
+- Nagios
+- Zabbix
+- PRTG
+- SolarWinds
 
-# Analyse du trafic
-tcpdump -i eth0 -n -c 100
+## 🚨 Gestion des Incidents
 
-# Détection des scans de ports
-nmap -sS -O target_ip
-```
+### Procédure Type
+1. **Détection**
+2. **Isolation**
+3. **Analyse**
+4. **Éradication**
+5. **Récupération**
+6. **Lessons Learned**
 
-## Bonnes Pratiques
+## 📚 Ressources
 
-**Recommandations de sécurité :**
+### Standards
+- ISO 27001/27002
+- NIST Cybersecurity Framework
+- CIS Controls
 
-- Changer les mots de passe par défaut
-- Mettre à jour régulièrement les firmwares
-- Désactiver les services non utilisés
-- Utiliser des VLANs pour segmenter
-- Implémenter l'authentification 802.1X
-- Surveiller le trafic en continu
+### Formations
+- CISSP
+- CCNA Security
+- CEH
 
-## Gestion des Incidents
+## ⚠️ Menaces Courantes
 
-### Procédure de Réponse
+### Attaques Réseau
+- DDoS/DoS
+- Man-in-the-Middle
+- ARP Poisoning
+- DNS Spoofing
 
-1. **Détection** : Alertes automatisées
-2. **Investigation** : Analyse des logs
-3. **Confinement** : Isolation des systèmes
-4. **Éradication** : Suppression des menaces
-5. **Récupération** : Remise en service
-6. **Leçons apprises** : Amélioration des processus
+### Contre-mesures
+- Rate limiting
+- Certificats SSL/TLS
+- DNSSEC
+- Network segmentation
 
-## Ressources Complémentaires
+---
 
-- [NIST Cybersecurity Framework](https://www.nist.gov/cyberframework)
-- [SANS Network Security Monitoring](https://www.sans.org/white-papers/1359/)
-- [Documentation pfSense](https://docs.netgate.com/pfsense/) 
+💡 **Conseil** : Implémentez une approche en couches pour maximiser la sécurité de votre infrastructure réseau.
