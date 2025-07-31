@@ -10,9 +10,7 @@ author: "Mathéo Fauvel"
 parent: "windows-server"
 ---
 
-# Installation & Configuration - Windows Server
-
-## Prérequis Système
+# Prérequis Système
 
 ### Configuration Minimale
 
