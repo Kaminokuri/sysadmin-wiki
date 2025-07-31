@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Fonction Recherche</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .warning { background: #fff3cd; border-color: #ffeaa7; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        .search-results { border: 1px solid #ddd; border-radius: 4px; margin: 10px 0; max-height: 300px; overflow-y: auto; }
+        .search-result-item { padding: 10px; border-bottom: 1px solid #eee; cursor: pointer; }
+        .search-result-item:hover { background: #f8f9fa; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Test de la Fonction Recherche</h1>
+    
+    <div class="test">
+        <h3>🧪 Test en Direct</h3>
+        <input type="text" id="testSearch" placeholder="Tapez votre recherche ici..." autocomplete="off">
+        <div id="testResults" class="search-results"></div>
+    </div>
+    
+    <div id="diagnostics"></div>
+    
+    <script>
+        // Copie de l'index de recherche
+        const searchIndex = {
+            "windows-server": {
+                title: "Windows Server 2022",
+                description: "Documentation complète sur Windows Server 2022 et ses principales fonctionnalités pour l'administration système en entreprise",
+                category: "Administration Système",
+                tags: ["Windows Server", "Administration", "PowerShell", "Sécurité"],
+                keywords: "windows server 2022 administration système entreprise configuration réseau sécurité powershell"
+            },
+            "windows-server-installation": {
+                title: "Installation & Configuration Windows Server",
+                description: "Guide détaillé pour l'installation et la configuration initiale de Windows Server",
+                category: "Administration Système",
+                tags: ["Windows Server", "Installation", "Configuration"],
+                keywords: "installation configuration windows server setup déploiement"
+            },
+            "linux-admin": {
+                title: "Administration Linux",
+                description: "Guide complet pour l'administration de systèmes Linux",
+                category: "Administration Système",
+                tags: ["Linux", "Administration", "Système"],
+                keywords: "linux administration système ubuntu debian centos commandes bash"
+            }
+        };
+
+        // Copie de la fonction de recherche
+        function performSearch(query) {
+            console.log(`🔍 Recherche pour: "${query}"`);
+            
+            if (query.length < 2) {
+                return [];
+            }
+
+            query = query.toLowerCase().trim();
+            const results = [];
+
+            // Rechercher dans l'index
+            Object.entries(searchIndex).forEach(([articleId, data]) => {
+                let score = 0;
+                const searchText = `${data.title} ${data.description} ${data.category} ${data.keywords} ${data.tags.join(' ')}`.toLowerCase();
+
+                // Score basé sur la correspondance
+                if (data.title.toLowerCase().includes(query)) score += 10;
+                if (data.description.toLowerCase().includes(query)) score += 5;
+                if (data.category.toLowerCase().includes(query)) score += 8;
+                if (data.keywords.toLowerCase().includes(query)) score += 6;
+                if (data.tags.some(tag => tag.toLowerCase().includes(query))) score += 7;
+
+                // Recherche de mots individuels
+                const queryWords = query.split(' ');
+                queryWords.forEach(word => {
+                    if (word.length > 2 && searchText.includes(word)) {
+                        score += 2;
+                    }
+                });
+
+                if (score > 0) {
+                    results.push({
+                        articleId,
+                        ...data,
+                        score
+                    });
+                }
+            });
+
+            // Trier par score décroissant
+            results.sort((a, b) => b.score - a.score);
+            
+            console.log(`✅ ${results.length} résultats trouvés:`, results);
+            return results;
+        }
+
+        function displayResults(results) {
+            const container = document.getElementById('testResults');
+            
+            if (results.length === 0) {
+                container.innerHTML = '<div style="padding: 10px; color: #666;">Aucun résultat trouvé</div>';
+                return;
+            }
+            
+            container.innerHTML = results.map(result => `
+                <div class="search-result-item">
+                    <strong>${result.title}</strong><br>
+                    <small>${result.description}</small><br>
+                    <span style="color: #666;">Score: ${result.score} | Catégorie: ${result.category}</span>
+                </div>
+            `).join('');
+        }
+
+        function runDiagnostics() {
+            const diagnostics = document.getElementById('diagnostics');
+            
+            // Test 1: Vérifier l'index
+            const indexSize = Object.keys(searchIndex).length;
+            diagnostics.innerHTML += `
+                <div class="test ${indexSize > 0 ? 'success' : 'error'}">
+                    <h3>📋 Index de Recherche</h3>
+                    <p>Nombre d'articles indexés: <strong>${indexSize}</strong></p>
+                    <pre>${JSON.stringify(Object.keys(searchIndex), null, 2)}</pre>
+                </div>
+            `;
+            
+            // Test 2: Test de recherche basique
+            const testQuery = "windows";
+            const testResults = performSearch(testQuery);
+            diagnostics.innerHTML += `
+                <div class="test ${testResults.length > 0 ? 'success' : 'error'}">
+                    <h3>🔍 Test de Recherche: "${testQuery}"</h3>
+                    <p>Résultats trouvés: <strong>${testResults.length}</strong></p>
+                    <pre>${JSON.stringify(testResults.map(r => ({title: r.title, score: r.score})), null, 2)}</pre>
+                </div>
+            `;
+            
+            // Test 3: Vérifier les éléments DOM
+            const searchInput = document.getElementById('testSearch');
+            const searchResults = document.getElementById('testResults');
+            diagnostics.innerHTML += `
+                <div class="test ${searchInput && searchResults ? 'success' : 'error'}">
+                    <h3>🎯 Éléments DOM</h3>
+                    <p>Input trouvé: <strong>${searchInput ? 'Oui' : 'Non'}</strong></p>
+                    <p>Container résultats trouvé: <strong>${searchResults ? 'Oui' : 'Non'}</strong></p>
+                </div>
+            `;
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            runDiagnostics();
+            
+            const searchInput = document.getElementById('testSearch');
+            searchInput.addEventListener('input', function(e) {
+                const results = performSearch(e.target.value);
+                displayResults(results);
+            });
+        });
+    </script>
+</body>
+</html>
