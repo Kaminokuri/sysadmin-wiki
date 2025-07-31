@@ -58,6 +58,109 @@
         .header h1 {
             font-size: 1.5rem;
             font-weight: 600;
+            margin: 0;
+            flex-shrink: 0;
+        }
+
+        /* Barre de recherche dans le header */
+        .header-search-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 0 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .header-search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .header-search-box input {
+            width: 100%;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .header-search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .header-search-box input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Résultats de recherche dans le header */
+        .header-search-box .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+            margin-top: 8px;
+        }
+
+        .header-search-box .search-results.visible {
+            display: block;
+        }
+
+        /* Styles des éléments de résultats dans le header */
+        .header-search-box .search-result-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .header-search-box .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .header-search-box .search-result-item:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .header-search-box .search-result-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .header-search-box .search-result-description {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .header-search-box .search-result-category {
+            font-size: 0.675rem;
+            color: var(--primary-color);
+            background-color: rgba(37, 99, 235, 0.1);
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .header-search-box .search-no-results {
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-secondary);
         }
 
         /* Container principal */
@@ -469,6 +572,42 @@
                 font-size: 1.875rem;
             }
 
+            /* Barre de recherche header responsive */
+            .header {
+                padding: 0 1rem;
+                flex-wrap: wrap;
+                min-height: var(--header-height);
+                height: auto;
+            }
+
+            .header h1 {
+                font-size: 1.25rem;
+                margin-bottom: 0.5rem;
+                order: 1;
+                width: 100%;
+            }
+
+            .header-search-container {
+                order: 2;
+                padding: 0;
+                max-width: none;
+                margin: 0;
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .header-search-box input {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .header > div:last-child {
+                order: 3;
+                margin-left: 0;
+                text-align: center;
+                width: 100%;
+            }
+
             .meta {
                 flex-direction: column;
                 align-items: flex-start;
@@ -493,6 +632,15 @@
 <body>
     <header class="header">
         <h1>🛡️ Wiki Sysadmin</h1>
+        
+        <!-- Barre de recherche au centre -->
+        <div class="header-search-container">
+            <div class="header-search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Rechercher..." autocomplete="off">
+                <div id="searchResults" class="search-results"></div>
+        </div>
+        </div>
+        
         <div style="margin-left: auto; text-align: right;">
             <div style="font-size: 0.9rem; opacity: 0.9;">Documentation Technique</div>
             <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8);">Mathéo Fauvel</div>
@@ -501,116 +649,13 @@
 
     <div class="container">
         <aside class="sidebar" id="sidebar">
-            <!-- Barre de recherche -->
-            <div class="search-container">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="🔍 Rechercher..." autocomplete="off">
-                    <div id="searchResults" class="search-results"></div>
-                </div>
+            <!-- 🤖 SIDEBAR AUTO-GÉNÉRÉE - Chargement en cours... -->
+            <div id="sidebar-loading" style="padding: 2rem; text-align: center; color: #666;">
+                <div style="margin-bottom: 1rem;">🔄</div>
+                <div>Chargement de la navigation...</div>
             </div>
-
-            <nav class="nav">
-                <div class="nav-section">
-                    <h3 class="nav-header">⚙️ Administration Système</h3>
-                    <div class="nav-item has-submenu">
-                        <a href="#" onclick="loadMarkdownArticle('windows-server')" class="nav-link active">
-                            <span>Windows Server</span>
-                            <span class="nav-toggle">▼</span>
-                        </a>
-                        <div class="submenu">
-                            <a href="#" onclick="loadMarkdownArticle('windows-server-installation')" class="submenu-item">
-                                <span>Installation & Configuration</span>
-                            </a>
-                            <a href="#" onclick="loadMarkdownArticle('windows-server-roles')" class="submenu-item">
-                                <span>Rôles & Fonctionnalités</span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('linux-admin')" class="nav-link">
-                            <span>Linux Administration</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('active-directory')" class="nav-link">
-                            <span>Active Directory</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('powershell')" class="nav-link">
-                            <span>PowerShell</span>
-                            <span class="badge">NEW</span>
-                        </a>
-                    </div>
-            </div>
-
-                <div class="nav-section">
-                    <h3 class="nav-header">🔒 Cybersécurité</h3>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('securite-reseau')" class="nav-link">
-                            <span>Sécurité Réseau</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('cryptographie')" class="nav-link">
-                            <span>Cryptographie</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('pentest')" class="nav-link">
-                            <span>Tests d'Intrusion</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('siem')" class="nav-link">
-                            <span>SIEM & SOC</span>
-                        </a>
-                    </div>
-            </div>
-
-                <div class="nav-section">
-                    <h3 class="nav-header">🏗️ Infrastructure</h3>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('virtualisation')" class="nav-link">
-                            <span>Virtualisation VMware</span>
-                        </a>
-            </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('reseau')" class="nav-link">
-                            <span>Architecture Réseau</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('stockage')" class="nav-link">
-                            <span>Solutions de Stockage</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('cloud')" class="nav-link">
-                            <span>Cloud Computing</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="nav-section">
-                    <h3 class="nav-header">📋 Gestion de Projet</h3>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('methodologies')" class="nav-link">
-                            <span>Méthodologies Agile</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('outils')" class="nav-link">
-                            <span>Outils de Gestion</span>
-                        </a>
-                    </div>
-                    <div class="nav-item">
-                        <a href="#" onclick="loadMarkdownArticle('itil')" class="nav-link">
-                            <span>ITIL v4</span>
-                        </a>
-                    </div>
-                </div>
-            </nav>
+            
+            <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
         </aside>
 
         <main class="main-content">
@@ -766,154 +811,606 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
             }
         });
 
-        // Mapping des articles vers les fichiers Markdown
-        const articlesMapping = {
-            "windows-server": "content/sysadmin/windows-server.md",
-            "windows-server-installation": "content/sysadmin/windows-server/installation.md",
-            "windows-server-roles": "content/sysadmin/windows-server/roles.md",
-            "linux-admin": "content/sysadmin/linux-admin.md",
-            "active-directory": "content/sysadmin/active-directory.md",
-            "powershell": "content/sysadmin/powershell.md",
-            "securite-reseau": "content/cybersecurite/securite-reseau.md",
-            "cryptographie": "content/cybersecurite/cryptographie.md",
-            "pentest": "content/cybersecurite/pentest.md",
-            "siem": "content/cybersecurite/siem.md",
-            "virtualisation": "content/infrastructure/virtualisation.md",
-            "reseau": "content/infrastructure/reseau.md",
-            "stockage": "content/infrastructure/stockage.md",
-            "cloud": "content/infrastructure/cloud.md",
-            "methodologies": "content/gestion-projet/methodologies.md",
-            "outils": "content/gestion-projet/outils.md",
-            "itil": "content/gestion-projet/itil.md"
-        };
+        // 🚀 SYSTÈME AUTO-DÉCOUVERTE 100% MARKDOWN
+        // Plus besoin de modifier HTML ou JavaScript pour ajouter des articles !
 
-        // Index de recherche avec métadonnées
-        const searchIndex = {
-            "windows-server": {
-                title: "Windows Server 2022",
-                description: "Documentation complète sur Windows Server 2022 et ses principales fonctionnalités pour l'administration système en entreprise",
-                category: "Administration Système",
-                tags: ["Windows Server", "Administration", "PowerShell", "Sécurité"],
-                keywords: "windows server 2022 administration système entreprise configuration réseau sécurité powershell"
-            },
-            "windows-server-installation": {
-                title: "Installation & Configuration Windows Server",
-                description: "Guide détaillé pour l'installation et la configuration initiale de Windows Server",
-                category: "Administration Système",
-                tags: ["Windows Server", "Installation", "Configuration"],
-                keywords: "installation configuration windows server setup déploiement"
-            },
-            "windows-server-roles": {
-                title: "Rôles & Fonctionnalités Windows Server",
-                description: "Présentation des rôles et fonctionnalités disponibles dans Windows Server",
-                category: "Administration Système",
-                tags: ["Windows Server", "Rôles", "Fonctionnalités"],
-                keywords: "rôles fonctionnalités windows server active directory dns dhcp"
-            },
-            "linux-admin": {
-                title: "Administration Linux",
-                description: "Guide complet pour l'administration de systèmes Linux",
-                category: "Administration Système",
-                tags: ["Linux", "Administration", "Système"],
-                keywords: "linux administration système ubuntu debian centos commandes bash"
-            },
-            "active-directory": {
-                title: "Active Directory",
-                description: "Gestion et administration d'Active Directory",
-                category: "Administration Système",
-                tags: ["Active Directory", "Windows", "Authentification"],
-                keywords: "active directory ad authentification domaine utilisateurs groupes"
-            },
-            "powershell": {
-                title: "PowerShell",
-                description: "Scripts et automatisation avec PowerShell",
-                category: "Administration Système",
-                tags: ["PowerShell", "Scripts", "Automatisation"],
-                keywords: "powershell scripts automatisation cmdlets windows administration"
-            },
-            "securite-reseau": {
-                title: "Sécurité Réseau",
-                description: "Concepts et pratiques de sécurité réseau",
-                category: "Cybersécurité",
-                tags: ["Sécurité", "Réseau", "Firewall"],
-                keywords: "sécurité réseau firewall vpn ips ids protection"
-            },
-            "cryptographie": {
-                title: "Cryptographie",
-                description: "Principes et applications de la cryptographie",
-                category: "Cybersécurité",
-                tags: ["Cryptographie", "Chiffrement", "Sécurité"],
-                keywords: "cryptographie chiffrement ssl tls certificats hash"
-            },
-            "pentest": {
-                title: "Tests d'Intrusion",
-                description: "Méthodologies et outils pour les tests d'intrusion",
-                category: "Cybersécurité",
-                tags: ["Pentest", "Sécurité", "Tests"],
-                keywords: "pentest tests intrusion sécurité vulnérabilités audit"
-            },
-            "siem": {
-                title: "SIEM & SOC",
-                description: "Security Information and Event Management et Security Operations Center",
-                category: "Cybersécurité",
-                tags: ["SIEM", "SOC", "Monitoring"],
-                keywords: "siem soc monitoring sécurité événements logs analyse"
-            },
-            "virtualisation": {
-                title: "Virtualisation VMware",
-                description: "Technologies de virtualisation VMware",
-                category: "Infrastructure",
-                tags: ["VMware", "Virtualisation", "Infrastructure"],
-                keywords: "vmware virtualisation esxi vcenter infrastructure cloud"
-            },
-            "reseau": {
-                title: "Architecture Réseau",
-                description: "Conception et architecture des réseaux d'entreprise",
-                category: "Infrastructure",
-                tags: ["Réseau", "Architecture", "Infrastructure"],
-                keywords: "réseau architecture infrastructure lan wan vlan routage"
-            },
-            "stockage": {
-                title: "Solutions de Stockage",
-                description: "Technologies et solutions de stockage",
-                category: "Infrastructure",
-                tags: ["Stockage", "Storage", "Infrastructure"],
-                keywords: "stockage storage san nas raid sauvegarde"
-            },
-            "cloud": {
-                title: "Cloud Computing",
-                description: "Technologies et services cloud",
-                category: "Infrastructure",
-                tags: ["Cloud", "Azure", "AWS"],
-                keywords: "cloud azure aws google computing iaas paas saas"
-            },
-            "methodologies": {
-                title: "Méthodologies Agile",
-                description: "Méthodologies agiles pour la gestion de projet",
-                category: "Gestion de Projet",
-                tags: ["Agile", "Scrum", "Méthodologies"],
-                keywords: "agile scrum kanban méthodologies projet développement"
-            },
-            "outils": {
-                title: "Outils de Gestion",
-                description: "Outils et logiciels de gestion de projet",
-                category: "Gestion de Projet",
-                tags: ["Outils", "Gestion", "Projet"],
-                keywords: "outils gestion projet jira confluence trello"
-            },
-            "itil": {
-                title: "ITIL v4",
-                description: "Framework ITIL v4 pour la gestion des services IT",
-                category: "Gestion de Projet",
-                tags: ["ITIL", "Services", "Framework"],
-                keywords: "itil framework services it gestion processus amélioration"
+        // Variables globales
+        let articlesDatabase = {};
+        let searchIndex = {};
+        let navigationStructure = {};
+
+        // 🔄 AUTO-DÉCOUVERTE DES ARTICLES DEPUIS NAVIGATION.MD
+        async function discoverArticles() {
+            console.log('🔍 Découverte automatique depuis navigation.md...');
+            
+            try {
+                // Charger le fichier de navigation
+                const navResponse = await fetch('content/navigation.md');
+                if (!navResponse.ok) {
+                    throw new Error('Fichier navigation.md non trouvé');
+                }
+                
+                const navContent = await navResponse.text();
+                console.log('📄 Navigation.md chargé');
+                
+                // Parser la navigation Markdown
+                const navigationConfig = parseNavigationMarkdown(navContent);
+                console.log('📋 Configuration navigation parsée:', navigationConfig);
+                
+                // Initialiser les structures
+                navigationStructure = {};
+                articlesDatabase = {};
+                searchIndex = {};
+                
+                // Traiter chaque section
+                for (const section of navigationConfig) {
+                    const sectionKey = generateSectionKey(section.title);
+                    navigationStructure[sectionKey] = {
+                        title: section.title,
+                        icon: section.icon,
+                        order: section.order,
+                        articles: [],
+                        submenus: {},
+                        rawConfig: section // Garder la config originale pour la génération
+                    };
+                    
+                    // Traiter tous les fichiers de cette section
+                    const allFiles = collectAllFiles(section);
+                    for (const filePath of allFiles) {
+                        await processMarkdownFile(`content/${filePath}`, sectionKey);
+                    }
+                    
+                    // Organiser les sous-menus correctement
+                    for (const article of section.articles) {
+                        const articleId = generateArticleId(`content/${article.filePath}`);
+                        
+                        if (article.subArticles && article.subArticles.length > 0) {
+                            // Créer le sous-menu
+                            const submenuKey = articleId.split('-').pop() || articleId;
+                            navigationStructure[sectionKey].submenus[submenuKey] = [];
+                            
+                            for (const subArticle of article.subArticles) {
+                                const subArticleId = generateArticleId(`content/${subArticle.filePath}`);
+                                navigationStructure[sectionKey].submenus[submenuKey].push(subArticleId);
+                            }
+                        }
+                        
+                        // Ajouter l'article principal
+                        if (!navigationStructure[sectionKey].articles.includes(articleId)) {
+                            navigationStructure[sectionKey].articles.push(articleId);
+                        }
+                    }
+                }
+                
+                console.log('✅ Découverte terminée:', navigationStructure);
+                console.log('📊 Articles:', Object.keys(articlesDatabase).length);
+                console.log('🔍 Index recherche:', Object.keys(searchIndex).length);
+                
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de la découverte:', error);
+                // Fallback vers la configuration par défaut si navigation.md n'existe pas
+                return await discoverArticlesClassic();
             }
-        };
+        }
+        
+        // 📜 PARSER LA NAVIGATION MARKDOWN
+        function parseNavigationMarkdown(content) {
+            console.log('🔍 Parsing du fichier navigation.md...');
+            
+            const lines = content.split('\n');
+            const sections = [];
+            let currentSection = null;
+            let currentArticle = null;
+            
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                
+                // Section principale (## Titre)
+                if (line.startsWith('## ') && !line.startsWith('### ')) {
+                    currentSection = {
+                        title: line.substring(3).trim(),
+                        icon: extractIcon(line),
+                        order: extractOrder(lines, i) || sections.length + 1,
+                        articles: []
+                    };
+                    sections.push(currentSection);
+                    currentArticle = null;
+                }
+                // Article avec sous-articles (### Titre)
+                else if (line.startsWith('### ') && currentSection) {
+                    const articleTitle = line.substring(4).trim();
+                    const filePath = extractFilePath(articleTitle, lines, i);
+                    const badge = extractBadge(lines, i);
+                    
+                    currentArticle = {
+                        title: cleanTitle(articleTitle),
+                        filePath: filePath,
+                        badge: badge,
+                        subArticles: []
+                    };
+                    currentSection.articles.push(currentArticle);
+                }
+                // Sous-article (- [Titre](chemin))
+                else if (line.startsWith('- [') && currentArticle) {
+                    const match = line.match(/- \[([^\]]+)\]\(([^)]+)\)/);
+                    if (match) {
+                        currentArticle.subArticles.push({
+                            title: match[1],
+                            filePath: match[2]
+                        });
+                    }
+                }
+            }
+            
+            return sections;
+        }
+        
+        // Utilitaires pour parser la navigation
+        function extractIcon(line) {
+            const iconMatch = line.match(/([🎯⚙️🔒🏗️📋🚀🔧📊🌐💻📱🔄🎨📝🔍]+)/);
+            return iconMatch ? iconMatch[1] : '📄';
+        }
+        
+        function extractOrder(lines, currentIndex) {
+            // Chercher un commentaire ordre sur les lignes suivantes
+            for (let i = currentIndex + 1; i < Math.min(currentIndex + 3, lines.length); i++) {
+                const line = lines[i];
+                const orderMatch = line.match(/<!--.*order:\s*(\d+)/);
+                if (orderMatch) {
+                    return parseInt(orderMatch[1]);
+                }
+            }
+            return null;
+        }
+        
+        function extractFilePath(title, lines, currentIndex) {
+            // Si le titre contient déjà un lien markdown
+            const linkMatch = title.match(/\[([^\]]+)\]\(([^)]+)\)/);
+            if (linkMatch) {
+                return linkMatch[2];
+            }
+            
+            // Chercher un commentaire file sur les lignes suivantes
+            for (let i = currentIndex + 1; i < Math.min(currentIndex + 3, lines.length); i++) {
+                const line = lines[i];
+                const fileMatch = line.match(/<!--.*file:\s*([^,\s>]+)/);
+                if (fileMatch) {
+                    return fileMatch[1];
+                }
+            }
+            
+            // Générer automatiquement depuis le titre
+            return generateFilePathFromTitle(title);
+        }
+        
+        function extractBadge(lines, currentIndex) {
+            for (let i = currentIndex + 1; i < Math.min(currentIndex + 3, lines.length); i++) {
+                const line = lines[i];
+                const badgeMatch = line.match(/<!--.*badge:\s*([^,\s>]+)|badge:\s*([^,\s>]+)/);
+                if (badgeMatch) {
+                    return badgeMatch[1] || badgeMatch[2];
+                }
+            }
+            return null;
+        }
+        
+        function cleanTitle(title) {
+            // Supprimer les liens markdown pour garder juste le titre
+            const linkMatch = title.match(/\[([^\]]+)\]/);
+            return linkMatch ? linkMatch[1] : title;
+        }
+        
+        function generateSectionKey(title) {
+            return title.toLowerCase()
+                .replace(/[🎯⚙️🔒🏗️📋🚀🔧📊🌐💻📱🔄🎨📝🔍\s]+/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/[^\w-]/g, '');
+        }
+        
+        function generateFilePathFromTitle(title) {
+            const cleanTitle = title.replace(/[🎯⚙️🔒🏗️📋🚀🔧📊🌐💻📱🔄🎨📝🔍\[\]()]/g, '').trim();
+            return cleanTitle.toLowerCase()
+                .replace(/\s+/g, '-')
+                .replace(/[^\w-]/g, '') + '.md';
+        }
+        
+        function collectAllFiles(section) {
+            const files = [];
+            for (const article of section.articles) {
+                if (article.filePath) {
+                    files.push(article.filePath);
+                }
+                for (const subArticle of article.subArticles) {
+                    files.push(subArticle.filePath);
+                }
+            }
+            return files;
+        }
+        
+        // Traiter un fichier Markdown
+        async function processMarkdownFile(filePath, sectionKey) {
+            console.log(`📄 Traitement ${filePath}...`);
+            
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    console.warn(`⚠️ Fichier non trouvé: ${filePath}`);
+                    return;
+                }
+                
+                const content = await response.text();
+                const { metadata, content: markdownContent } = parseFrontMatter(content);
+                
+                // Générer l'ID de l'article
+                const articleId = generateArticleId(filePath);
+                
+                // Détecter si c'est un sous-article
+                const pathParts = filePath.split('/');
+                const isSubArticle = pathParts.length > 3;
+                const parentFolder = isSubArticle ? pathParts[pathParts.length - 2] : null;
+                
+                // Stocker l'article
+                articlesDatabase[articleId] = {
+                    id: articleId,
+                    filePath: filePath,
+                    title: metadata.title || extractTitleFromContent(markdownContent),
+                    description: metadata.description || '',
+                    category: metadata.category || navigationStructure[sectionKey].title,
+                    tags: parseTags(metadata.tags),
+                    level: metadata.level || 'Intermédiaire',
+                    author: metadata.author || 'Mathéo Fauvel',
+                    lastUpdated: metadata.last_updated || new Date().toLocaleDateString('fr-FR'),
+                    readingTime: metadata.reading_time || estimateReadingTime(markdownContent),
+                    sectionKey: sectionKey,
+                    isSubArticle: isSubArticle,
+                    parentFolder: parentFolder,
+                    order: metadata.order || 999
+                };
+                
+                // Créer l'entrée de recherche
+                searchIndex[articleId] = {
+                    title: articlesDatabase[articleId].title,
+                    description: articlesDatabase[articleId].description,
+                    category: articlesDatabase[articleId].category,
+                    tags: articlesDatabase[articleId].tags,
+                    keywords: generateKeywords(metadata, markdownContent, articlesDatabase[articleId].title)
+                };
+                
+                // Organiser dans la navigation
+                if (isSubArticle && parentFolder) {
+                    // C'est un sous-article
+                    if (!navigationStructure[sectionKey].submenus[parentFolder]) {
+                        navigationStructure[sectionKey].submenus[parentFolder] = [];
+                    }
+                    navigationStructure[sectionKey].submenus[parentFolder].push(articleId);
+                } else {
+                    // C'est un article principal
+                    navigationStructure[sectionKey].articles.push(articleId);
+                }
+                
+                console.log(`✅ Article traité: ${articleId}`);
+                
+            } catch (error) {
+                console.error(`❌ Erreur traitement ${filePath}:`, error);
+            }
+        }
+
+        // 🎨 GÉNÉRATION AUTOMATIQUE DE LA SIDEBAR AVEC SOUS-MENUS
+        function generateSidebar() {
+            console.log('🎨 Génération automatique de la sidebar avec sous-menus...');
+            
+            const sidebar = document.getElementById('sidebar');
+            const loadingDiv = document.getElementById('sidebar-loading');
+            
+            if (!sidebar) {
+                console.error('❌ Sidebar non trouvée');
+                return;
+            }
+            
+            // Supprimer le message de chargement
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+            
+            let sidebarHTML = '';
+            
+            // Générer depuis navigationStructure qui contient maintenant les sous-menus
+            const sortedSections = Object.entries(navigationStructure)
+                .sort(([,a], [,b]) => a.order - b.order);
+            
+            for (const [sectionKey, section] of sortedSections) {
+                sidebarHTML += `
+                    <nav class="nav">
+                        <div class="nav-section">
+                            <h3 class="nav-header">${section.title}</h3>
+                `;
+                
+                // Articles principaux
+                for (const articleId of section.articles) {
+                    const article = articlesDatabase[articleId];
+                    if (!article) continue;
+                    
+                    // Vérifier s'il a des sous-articles
+                    const submenuKey = articleId.split('-').pop();
+                    const hasSubmenu = section.submenus[submenuKey] && section.submenus[submenuKey].length > 0;
+                    
+                    console.log(`🔍 Article ${articleId}: submenuKey=${submenuKey}, hasSubmenu=${hasSubmenu}`);
+                    
+                    if (hasSubmenu) {
+                        // Article avec sous-menu
+                        sidebarHTML += `
+                            <div class="nav-item has-submenu">
+                                <a href="#" onclick="loadAutoMarkdownArticle('${articleId}')" class="nav-link">
+                                    <span>${article.title}</span>
+                                    <span class="nav-toggle">▼</span>
+                                </a>
+                                <div class="submenu">
+                        `;
+                        
+                        // Sous-articles
+                        for (const subArticleId of section.submenus[submenuKey]) {
+                            const subArticle = articlesDatabase[subArticleId];
+                            if (subArticle) {
+                                sidebarHTML += `
+                                    <a href="#" onclick="loadAutoMarkdownArticle('${subArticleId}')" class="submenu-item">
+                                        <span>${subArticle.title}</span>
+                                    </a>
+                                `;
+                            }
+                        }
+                        
+                        sidebarHTML += `
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        // Article simple
+                        sidebarHTML += `
+                            <div class="nav-item">
+                                <a href="#" onclick="loadAutoMarkdownArticle('${articleId}')" class="nav-link">
+                                    <span>${article.title}</span>
+                                </a>
+                            </div>
+                        `;
+                    }
+                }
+                
+                sidebarHTML += `
+                        </div>
+                    </nav>
+                `;
+            }
+            
+            // Ajouter le bouton mobile à la fin
+            sidebarHTML += '<button class="mobile-toggle" onclick="toggleSidebar()">☰</button>';
+            
+            sidebar.innerHTML = sidebarHTML;
+            console.log('✅ Sidebar générée avec sous-menus:', Object.keys(navigationStructure).map(k => navigationStructure[k].submenus));
+        }
+        
+        // 🔄 Génération sidebar classique (fallback)
+        function generateSidebarClassic() {
+            console.log('🔄 Génération sidebar classique (fallback)...');
+            
+            const sidebar = document.getElementById('sidebar');
+            if (!sidebar) return;
+            
+            let sidebarHTML = '';
+            
+            // Générer depuis navigationStructure (ancien système)
+            const sortedSections = Object.entries(navigationStructure)
+                .sort(([,a], [,b]) => a.order - b.order);
+            
+            for (const [sectionKey, section] of sortedSections) {
+                sidebarHTML += `
+                    <nav class="nav">
+                        <div class="nav-section">
+                            <h3 class="nav-header">${section.title}</h3>
+                `;
+                
+                // Articles principaux
+                for (const articleId of section.articles) {
+                    const article = articlesDatabase[articleId];
+                    if (!article) continue;
+                    
+                    sidebarHTML += `
+                        <div class="nav-item">
+                            <a href="#" onclick="loadAutoMarkdownArticle('${articleId}')" class="nav-link">
+                                <span>${article.title}</span>
+                            </a>
+                        </div>
+                    `;
+                }
+                
+                sidebarHTML += `
+                        </div>
+                    </nav>
+                `;
+            }
+            
+            sidebarHTML += '<button class="mobile-toggle" onclick="toggleSidebar()">☰</button>';
+            sidebar.innerHTML = sidebarHTML;
+            console.log('✅ Sidebar classique générée (fallback)');
+        }
+
+        // Utilitaires
+        function generateArticleId(filePath) {
+            return filePath
+                .replace('content/', '')
+                .replace('.md', '')
+                .replace(/\//g, '-')
+                .toLowerCase();
+        }
+        
+        function parseTags(tags) {
+            if (Array.isArray(tags)) return tags;
+            if (typeof tags === 'string') {
+                if (tags.startsWith('[')) {
+                    try {
+                        return JSON.parse(tags);
+                    } catch {
+                        return tags.split(',').map(t => t.trim());
+                    }
+                }
+                return tags.split(',').map(t => t.trim());
+            }
+            return [];
+        }
+        
+        function extractTitleFromContent(content) {
+            const lines = content.split('\n');
+            for (const line of lines) {
+                if (line.startsWith('# ')) {
+                    return line.substring(2).trim();
+                }
+            }
+            return 'Article sans titre';
+        }
+        
+        function estimateReadingTime(content) {
+            const words = content.split(/\s+/).length;
+            const minutes = Math.ceil(words / 200); // 200 mots par minute
+            return `${minutes} min`;
+        }
+        
+        function generateKeywords(metadata, content, title) {
+            const keywords = new Set();
+            
+            // Titre
+            if (title) {
+                title.toLowerCase().split(/\s+/).forEach(word => {
+                    if (word.length > 2) keywords.add(word);
+                });
+            }
+            
+            // Description
+            if (metadata.description) {
+                metadata.description.toLowerCase().split(/\s+/).forEach(word => {
+                    if (word.length > 2) keywords.add(word);
+                });
+            }
+            
+            // Tags
+            const tags = parseTags(metadata.tags);
+            tags.forEach(tag => {
+                if (typeof tag === 'string') {
+                    tag.toLowerCase().split(/\s+/).forEach(word => {
+                        if (word.length > 2) keywords.add(word);
+                    });
+                }
+            });
+            
+            // Mots-clés explicites
+            if (metadata.keywords) {
+                metadata.keywords.toLowerCase().split(/\s+/).forEach(word => {
+                    if (word.length > 2) keywords.add(word);
+                });
+            }
+            
+            return Array.from(keywords).join(' ');
+        }
 
         // Variable pour l'article actuel
-        let currentArticle = 'windows-server';
+        let currentArticle = 'sysadmin-windows-server';
 
-        // Charger un article Markdown
+        // 📄 NOUVEAU CHARGEMENT D'ARTICLE AUTO
+        async function loadAutoMarkdownArticle(articleId) {
+            console.log(`📖 Chargement auto de l'article: ${articleId}`);
+            
+            // Récupérer l'article de la base de données
+            const article = articlesDatabase[articleId];
+            if (!article) {
+                console.error(`❌ Article non trouvé: ${articleId}`);
+                showErrorMessage(`Article "${articleId}" non trouvé.`);
+                return;
+            }
+            
+            try {
+                console.log(`📁 Chargement depuis: ${article.filePath}`);
+                
+                const response = await fetch(article.filePath);
+                if (!response.ok) {
+                    throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+                }
+                
+                const markdownContent = await response.text();
+                console.log(`📄 Contenu chargé (${markdownContent.length} caractères)`);
+                
+                const { metadata, content } = parseFrontMatter(markdownContent);
+                console.log('📋 Métadonnées extraites:', metadata);
+                
+                const htmlContent = marked.parse(content);
+                console.log('🔄 HTML généré');
+                
+                updateContent(articleId, article, htmlContent);
+                updateActiveNavItem(articleId);
+                updateUrl(articleId);
+                
+                console.log(`✅ Article "${articleId}" chargé avec succès`);
+                
+            } catch (error) {
+                console.error(`❌ Erreur lors du chargement de l'article ${articleId}:`, error);
+                showErrorMessage(`Impossible de charger l'article demandé.`);
+            }
+        }
+
+        // 🔍 NOUVELLE FONCTION DE RECHERCHE AUTO
+        function performAutoSearch(query) {
+            console.log(`🔍 Recherche automatique pour: "${query}"`);
+            
+            if (query.length < 2) {
+                console.log('❌ Requête trop courte');
+                hideSearchResults();
+                return;
+            }
+
+            query = query.toLowerCase().trim();
+            const results = [];
+            console.log(`📝 Recherche dans ${Object.keys(searchIndex).length} articles...`);
+
+            // Rechercher dans l'index auto-généré
+            Object.entries(searchIndex).forEach(([articleId, data]) => {
+                let score = 0;
+                const searchText = `${data.title} ${data.description} ${data.category} ${data.keywords} ${data.tags.join(' ')}`.toLowerCase();
+
+                // Score basé sur la correspondance
+                if (data.title.toLowerCase().includes(query)) score += 10;
+                if (data.description.toLowerCase().includes(query)) score += 5;
+                if (data.category.toLowerCase().includes(query)) score += 8;
+                if (data.keywords.toLowerCase().includes(query)) score += 6;
+                if (data.tags.some(tag => tag.toLowerCase().includes(query))) score += 7;
+
+                // Recherche de mots individuels
+                const queryWords = query.split(' ');
+                queryWords.forEach(word => {
+                    if (word.length > 2 && searchText.includes(word)) {
+                        score += 2;
+                    }
+                });
+
+                if (score > 0) {
+                    results.push({
+                        articleId,
+                        ...data,
+                        score
+                    });
+                }
+            });
+
+            // Trier par score décroissant
+            results.sort((a, b) => b.score - a.score);
+            console.log(`✅ ${results.length} résultats trouvés:`, results.map(r => ({title: r.title, score: r.score})));
+
+            // Limiter à 8 résultats
+            const limitedResults = results.slice(0, 8);
+            console.log(`📋 Affichage de ${limitedResults.length} résultats`);
+
+            displaySearchResults(limitedResults, query);
+        }
+
+        // Charger un article Markdown (ANCIENNE VERSION - Compatibilité)
         async function loadMarkdownArticle(articleId) {
             try {
                 console.log(`🔍 Chargement de l'article: ${articleId}`);
@@ -1202,13 +1699,13 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
         // Initialiser la recherche
         function initializeSearch() {
             console.log('🔧 Initialisation de la fonction recherche...');
-            const searchInput = document.getElementById('searchInput');
+        const searchInput = document.getElementById('searchInput');
             const searchResults = document.getElementById('searchResults');
             console.log('📍 Éléments trouvés:', {searchInput, searchResults});
         
             // Événement de saisie avec debounce
             let searchTimeout;
-            searchInput.addEventListener('input', function(e) {
+        searchInput.addEventListener('input', function(e) {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
                     performSearch(e.target.value);
@@ -1288,20 +1785,97 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
         // Gestion du bouton retour/avancer du navigateur
         window.addEventListener('popstate', function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const articleId = urlParams.get('article') || 'windows-server';
-            loadMarkdownArticle(articleId);
+            const articleId = urlParams.get('article') || 'sysadmin-windows-server';
+            loadAutoMarkdownArticle(articleId);
         });
+
+        // 🎯 INITIALISATION AUTOMATIQUE DU NOUVEAU SYSTÈME
+        async function initializeAutoSystem() {
+            console.log('🚀 Initialisation du système auto-découverte...');
+            
+            try {
+                // 1. Découvrir tous les articles
+                await discoverArticles();
+                
+                // 2. Générer la sidebar automatiquement
+                generateSidebar();
+                
+                // 3. Initialiser les autres composants
+                initializeMobileToggle();
+                initializeSubmenus();
+                initializeAutoSearch();
+                
+                // 4. Charger l'article par défaut
+                const urlParams = new URLSearchParams(window.location.search);
+                const articleId = urlParams.get('article') || 'sysadmin-windows-server';
+                await loadAutoMarkdownArticle(articleId);
+                
+                console.log('✅ Système auto-découverte initialisé avec succès !');
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'initialisation du système auto:', error);
+            }
+        }
+
+        // 🔍 INITIALISATION RECHERCHE AUTO
+        function initializeAutoSearch() {
+            console.log('🔧 Initialisation de la recherche automatique...');
+            const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            console.log('📍 Éléments trouvés:', {searchInput, searchResults});
+
+            if (!searchInput) {
+                console.error('❌ searchInput non trouvé');
+                return;
+            }
+
+            // Événement de saisie avec debounce
+            let searchTimeout;
+            searchInput.addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    performAutoSearch(e.target.value);
+                }, 300);
+            });
+
+            // Gestion des touches
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideSearchResults();
+                    searchInput.blur();
+                } else if (e.key === 'Enter') {
+                    const firstResult = searchResults?.querySelector('.search-result-item');
+                    if (firstResult) {
+                        const articleId = firstResult.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+                        if (articleId) {
+                            selectAutoSearchResult(articleId);
+                        }
+                    }
+                }
+            });
+
+            // Masquer les résultats au clic extérieur
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && (!searchResults || !searchResults.contains(e.target))) {
+                    hideSearchResults();
+                }
+            });
+
+            console.log('✅ Recherche automatique initialisée');
+        }
+
+        // Sélectionner un résultat de recherche
+        function selectAutoSearchResult(articleId) {
+            console.log(`🎯 Sélection résultat: ${articleId}`);
+            hideSearchResults();
+            document.getElementById('searchInput').value = '';
+            loadAutoMarkdownArticle(articleId);
+        }
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
-            initializeMobileToggle();
-            initializeSubmenus();
-            initializeSearch();
-            
-            // Charger l'article par défaut ou celui spécifié dans l'URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const articleId = urlParams.get('article') || 'windows-server';
-            loadMarkdownArticle(articleId);
+            console.log('🚀 Chargement de la page - Lancement du système auto-découverte...');
+            initializeAutoSystem();
         });
     </script>
 </body>
