@@ -865,14 +865,15 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
                         const articleId = generateArticleId(`content/${article.filePath}`);
                         
                         if (article.subArticles && article.subArticles.length > 0) {
-                            // Créer le sous-menu
-                            const submenuKey = articleId.split('-').pop() || articleId;
-                            navigationStructure[sectionKey].submenus[submenuKey] = [];
+                            // Créer le sous-menu en utilisant l'articleId complet
+                            navigationStructure[sectionKey].submenus[articleId] = [];
                             
                             for (const subArticle of article.subArticles) {
                                 const subArticleId = generateArticleId(`content/${subArticle.filePath}`);
-                                navigationStructure[sectionKey].submenus[submenuKey].push(subArticleId);
+                                navigationStructure[sectionKey].submenus[articleId].push(subArticleId);
                             }
+                            
+                            console.log(`📂 Sous-menu créé pour ${articleId}:`, navigationStructure[sectionKey].submenus[articleId]);
                         }
                         
                         // Ajouter l'article principal
