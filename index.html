@@ -1201,8 +1201,10 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
 
         // Initialiser la recherche
         function initializeSearch() {
-        const searchInput = document.getElementById('searchInput');
+            console.log('🔧 Initialisation de la fonction recherche...');
+            const searchInput = document.getElementById('searchInput');
             const searchResults = document.getElementById('searchResults');
+            console.log('📍 Éléments trouvés:', {searchInput, searchResults});
         
             // Événement de saisie avec debounce
             let searchTimeout;
