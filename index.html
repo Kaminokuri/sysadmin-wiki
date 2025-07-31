@@ -1133,11 +1133,10 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
                     const article = articlesDatabase[articleId];
                     if (!article) continue;
                     
-                    // Vérifier s'il a des sous-articles
-                    const submenuKey = articleId.split('-').pop();
-                    const hasSubmenu = section.submenus[submenuKey] && section.submenus[submenuKey].length > 0;
+                    // Vérifier s'il a des sous-articles en utilisant l'articleId complet
+                    const hasSubmenu = section.submenus[articleId] && section.submenus[articleId].length > 0;
                     
-                    console.log(`🔍 Article ${articleId}: submenuKey=${submenuKey}, hasSubmenu=${hasSubmenu}`);
+                    console.log(`🔍 Article ${articleId}: hasSubmenu=${hasSubmenu}, submenus=`, section.submenus[articleId] || 'aucun');
                     
                     if (hasSubmenu) {
                         // Article avec sous-menu
@@ -1151,7 +1150,7 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
                         `;
                         
                         // Sous-articles
-                        for (const subArticleId of section.submenus[submenuKey]) {
+                        for (const subArticleId of section.submenus[articleId]) {
                             const subArticle = articlesDatabase[subArticleId];
                             if (subArticle) {
                                 sidebarHTML += `
