@@ -929,8 +929,14 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
                 }
                 
                 const markdownContent = await response.text();
+                console.log(`📄 Contenu brut chargé (${markdownContent.length} caractères):`, markdownContent.substring(0, 200) + '...');
+                
                 const { metadata, content } = parseFrontMatter(markdownContent);
+                console.log('📋 Métadonnées extraites:', metadata);
+                console.log('📝 Contenu Markdown extrait:', content.substring(0, 200) + '...');
+                
                 const htmlContent = marked.parse(content);
+                console.log('🔄 HTML généré:', htmlContent.substring(0, 200) + '...');
                 
                 updateContent(articleId, metadata, htmlContent);
                 updateActiveNavItem(articleId);
@@ -947,24 +953,46 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
 
         // Parser le front matter YAML
         function parseFrontMatter(markdown) {
-            const frontMatterMatch = markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+            // Normaliser les fins de ligne et chercher le pattern front matter
+            const normalizedMarkdown = markdown.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            const frontMatterMatch = normalizedMarkdown.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
             
             if (!frontMatterMatch) {
+                console.warn('Pas de front matter trouvé, retour du contenu complet');
                 return { metadata: {}, content: markdown };
             }
             
             const [, frontMatter, content] = frontMatterMatch;
             const metadata = {};
             
+            // Parser chaque ligne du front matter
             frontMatter.split('\n').forEach(line => {
-                const match = line.match(/^(\w+):\s*(.+)$/);
-                if (match) {
-                    const [, key, value] = match;
-                    metadata[key] = value.replace(/['"]/g, '');
+                line = line.trim();
+                if (line && !line.startsWith('#')) {
+                    const match = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*:\s*(.+)$/);
+                    if (match) {
+                        const [, key, value] = match;
+                        // Nettoyer les guillemets et crochets
+                        let cleanValue = value.trim();
+                        if ((cleanValue.startsWith('"') && cleanValue.endsWith('"')) ||
+                            (cleanValue.startsWith("'") && cleanValue.endsWith("'"))) {
+                            cleanValue = cleanValue.slice(1, -1);
+                        }
+                        // Gérer les arrays JSON
+                        if (cleanValue.startsWith('[') && cleanValue.endsWith(']')) {
+                            try {
+                                cleanValue = JSON.parse(cleanValue).join(', ');
+                            } catch (e) {
+                                cleanValue = cleanValue.slice(1, -1);
+                            }
+                        }
+                        metadata[key] = cleanValue;
+                    }
                 }
             });
             
-            return { metadata, content };
+            console.log('Front matter parsé:', metadata);
+            return { metadata, content: content.trim() };
         }
 
         // Mettre à jour le contenu de la page
@@ -1067,13 +1095,17 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
 
         // Fonction de recherche
         function performSearch(query) {
+            console.log(`🔍 Recherche lancée pour: "${query}"`);
+            
             if (query.length < 2) {
+                console.log('❌ Requête trop courte, masquage des résultats');
                 hideSearchResults();
                 return;
             }
 
             query = query.toLowerCase().trim();
             const results = [];
+            console.log(`📝 Recherche dans ${Object.keys(searchIndex).length} articles...`);
 
             // Rechercher dans l'index
             Object.entries(searchIndex).forEach(([articleId, data]) => {
@@ -1106,16 +1138,20 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
 
             // Trier par score décroissant
             results.sort((a, b) => b.score - a.score);
+            console.log(`✅ ${results.length} résultats trouvés:`, results.map(r => ({title: r.title, score: r.score})));
 
             // Limiter à 8 résultats
             const limitedResults = results.slice(0, 8);
+            console.log(`📋 Affichage de ${limitedResults.length} résultats`);
 
             displaySearchResults(limitedResults, query);
         }
 
         // Afficher les résultats de recherche
         function displaySearchResults(results, query) {
+            console.log(`🖥️ displaySearchResults appelée avec ${results.length} résultats`);
             const searchResults = document.getElementById('searchResults');
+            console.log('🎯 Element searchResults:', searchResults);
             
             if (results.length === 0) {
                 searchResults.innerHTML = `
