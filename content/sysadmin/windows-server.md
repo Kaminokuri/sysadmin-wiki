@@ -1,5 +1,5 @@
 ---
-title: "Windows Server 2022"
+title: ""
 description: "Documentation complète sur Windows Server 2022 et ses principales fonctionnalités pour l'administration système en entreprise"
 category: "Administration Système"
 tags: ["Windows Server", "Administration", "PowerShell", "Sécurité"]
@@ -9,11 +9,9 @@ last_updated: "31 juillet 2025"
 author: "Mathéo Fauvel"
 ---
 
-# Windows Server 2022
-
 > **Note:** Cette documentation couvre Windows Server 2022 et ses principales fonctionnalités pour l'administration système en entreprise.
 
-## Introduction
+# Introduction
 
 Windows Server 2022 est la dernière version du système d'exploitation serveur de Microsoft, offrant des améliorations significatives en termes de sécurité, de performances et de gestion hybride. Cette plateforme constitue le socle de nombreuses infrastructures d'entreprise modernes.
 
