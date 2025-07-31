@@ -1074,6 +1074,20 @@
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 DOM Ready - Début initialisation');
+            
+            // Test immédiat de la sidebar
+            const sidebar = document.getElementById('sidebar');
+            console.log('📍 Sidebar element:', sidebar);
+            
+            if (sidebar) {
+                // Test d'affichage immédiat
+                sidebar.innerHTML = '<div style="color: blue; padding: 20px;">🔧 TEST: Sidebar trouvée, chargement en cours...</div>';
+                console.log('✅ Test HTML sidebar appliqué');
+            } else {
+                console.error('❌ Element sidebar non trouvé!');
+            }
+            
             loadConfig();
             initializeMobileToggle();
         });
