@@ -80,6 +80,95 @@
             z-index: 100;
         }
 
+        /* Recherche */
+        .search-container {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: white;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background-color: white;
+            transition: all 0.2s ease;
+        }
+
+        #searchInput:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .search-results.visible {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .search-result-description {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .search-result-category {
+            font-size: 0.675rem;
+            color: var(--primary-color);
+            background-color: rgba(37, 99, 235, 0.1);
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .search-no-results {
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
         .nav {
             padding: 1rem 0;
         }
@@ -385,6 +474,19 @@
                 align-items: flex-start;
                 gap: 0.5rem;
             }
+
+            /* Recherche mobile */
+            .search-container {
+                padding: 0.75rem;
+            }
+
+            #searchInput {
+                font-size: 1rem;
+            }
+
+            .search-results {
+                max-height: 250px;
+            }
         }
     </style>
 </head>
@@ -399,84 +501,92 @@
 
     <div class="container">
         <aside class="sidebar" id="sidebar">
+            <!-- Barre de recherche -->
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="🔍 Rechercher..." autocomplete="off">
+                    <div id="searchResults" class="search-results"></div>
+                </div>
+            </div>
+
             <nav class="nav">
                 <div class="nav-section">
                     <h3 class="nav-header">⚙️ Administration Système</h3>
                     <div class="nav-item has-submenu">
-                        <a href="#windows-server" class="nav-link active">
+                        <a href="#" onclick="loadMarkdownArticle('windows-server')" class="nav-link active">
                             <span>Windows Server</span>
                             <span class="nav-toggle">▼</span>
                         </a>
                         <div class="submenu">
-                            <a href="#windows-server-installation" class="submenu-item">
+                            <a href="#" onclick="loadMarkdownArticle('windows-server-installation')" class="submenu-item">
                                 <span>Installation & Configuration</span>
                             </a>
-                            <a href="#windows-server-roles" class="submenu-item">
+                            <a href="#" onclick="loadMarkdownArticle('windows-server-roles')" class="submenu-item">
                                 <span>Rôles & Fonctionnalités</span>
                             </a>
                         </div>
                     </div>
                     <div class="nav-item">
-                        <a href="#linux-admin" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('linux-admin')" class="nav-link">
                             <span>Linux Administration</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#active-directory" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('active-directory')" class="nav-link">
                             <span>Active Directory</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#powershell" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('powershell')" class="nav-link">
                             <span>PowerShell</span>
                             <span class="badge">NEW</span>
                         </a>
                     </div>
-                </div>
+            </div>
 
                 <div class="nav-section">
                     <h3 class="nav-header">🔒 Cybersécurité</h3>
                     <div class="nav-item">
-                        <a href="#securite-reseau" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('securite-reseau')" class="nav-link">
                             <span>Sécurité Réseau</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#cryptographie" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('cryptographie')" class="nav-link">
                             <span>Cryptographie</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#pentest" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('pentest')" class="nav-link">
                             <span>Tests d'Intrusion</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#siem" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('siem')" class="nav-link">
                             <span>SIEM & SOC</span>
                         </a>
                     </div>
-                </div>
+            </div>
 
                 <div class="nav-section">
                     <h3 class="nav-header">🏗️ Infrastructure</h3>
                     <div class="nav-item">
-                        <a href="#virtualisation" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('virtualisation')" class="nav-link">
                             <span>Virtualisation VMware</span>
                         </a>
-                    </div>
+            </div>
                     <div class="nav-item">
-                        <a href="#reseau" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('reseau')" class="nav-link">
                             <span>Architecture Réseau</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#stockage" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('stockage')" class="nav-link">
                             <span>Solutions de Stockage</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#cloud" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('cloud')" class="nav-link">
                             <span>Cloud Computing</span>
                         </a>
                     </div>
@@ -485,17 +595,17 @@
                 <div class="nav-section">
                     <h3 class="nav-header">📋 Gestion de Projet</h3>
                     <div class="nav-item">
-                        <a href="#methodologies" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('methodologies')" class="nav-link">
                             <span>Méthodologies Agile</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#outils" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('outils')" class="nav-link">
                             <span>Outils de Gestion</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#itil" class="nav-link">
+                        <a href="#" onclick="loadMarkdownArticle('itil')" class="nav-link">
                             <span>ITIL v4</span>
                         </a>
                     </div>
@@ -611,12 +721,12 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
                 <h2>Bonnes Pratiques de Sécurité</h2>
                 <p><strong>Recommandations:</strong></p>
                 <ul>
-                    <li>Appliquer le principe du moindre privilège</li>
-                    <li>Activer BitLocker pour le chiffrement des disques</li>
-                    <li>Configurer Windows Defender et l'ATP</li>
-                    <li>Mettre en place une stratégie de sauvegarde 3-2-1</li>
-                    <li>Auditer régulièrement les accès et permissions</li>
-                </ul>
+                        <li>Appliquer le principe du moindre privilège</li>
+                        <li>Activer BitLocker pour le chiffrement des disques</li>
+                        <li>Configurer Windows Defender et l'ATP</li>
+                        <li>Mettre en place une stratégie de sauvegarde 3-2-1</li>
+                        <li>Auditer régulièrement les accès et permissions</li>
+                    </ul>
 
                 <h2>Ressources Complémentaires</h2>
                 <p>Pour approfondir vos connaissances sur Windows Server 2022, consultez les ressources suivantes :</p>
@@ -635,20 +745,475 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
         ☰
     </div>
 
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
     <!-- Prism.js for syntax highlighting -->
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    
+
     <script>
-        // Version statique pour GitHub Pages
+        // Système hybride : Sidebar statique + Contenu Markdown
         
+        // Configuration de Marked.js
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                }
+                return code;
+            }
+        });
+
+        // Mapping des articles vers les fichiers Markdown
+        const articlesMapping = {
+            "windows-server": "content/sysadmin/windows-server.md",
+            "windows-server-installation": "content/sysadmin/windows-server/installation.md",
+            "windows-server-roles": "content/sysadmin/windows-server/roles.md",
+            "linux-admin": "content/sysadmin/linux-admin.md",
+            "active-directory": "content/sysadmin/active-directory.md",
+            "powershell": "content/sysadmin/powershell.md",
+            "securite-reseau": "content/cybersecurite/securite-reseau.md",
+            "cryptographie": "content/cybersecurite/cryptographie.md",
+            "pentest": "content/cybersecurite/pentest.md",
+            "siem": "content/cybersecurite/siem.md",
+            "virtualisation": "content/infrastructure/virtualisation.md",
+            "reseau": "content/infrastructure/reseau.md",
+            "stockage": "content/infrastructure/stockage.md",
+            "cloud": "content/infrastructure/cloud.md",
+            "methodologies": "content/gestion-projet/methodologies.md",
+            "outils": "content/gestion-projet/outils.md",
+            "itil": "content/gestion-projet/itil.md"
+        };
+
+        // Index de recherche avec métadonnées
+        const searchIndex = {
+            "windows-server": {
+                title: "Windows Server 2022",
+                description: "Documentation complète sur Windows Server 2022 et ses principales fonctionnalités pour l'administration système en entreprise",
+                category: "Administration Système",
+                tags: ["Windows Server", "Administration", "PowerShell", "Sécurité"],
+                keywords: "windows server 2022 administration système entreprise configuration réseau sécurité powershell"
+            },
+            "windows-server-installation": {
+                title: "Installation & Configuration Windows Server",
+                description: "Guide détaillé pour l'installation et la configuration initiale de Windows Server",
+                category: "Administration Système",
+                tags: ["Windows Server", "Installation", "Configuration"],
+                keywords: "installation configuration windows server setup déploiement"
+            },
+            "windows-server-roles": {
+                title: "Rôles & Fonctionnalités Windows Server",
+                description: "Présentation des rôles et fonctionnalités disponibles dans Windows Server",
+                category: "Administration Système",
+                tags: ["Windows Server", "Rôles", "Fonctionnalités"],
+                keywords: "rôles fonctionnalités windows server active directory dns dhcp"
+            },
+            "linux-admin": {
+                title: "Administration Linux",
+                description: "Guide complet pour l'administration de systèmes Linux",
+                category: "Administration Système",
+                tags: ["Linux", "Administration", "Système"],
+                keywords: "linux administration système ubuntu debian centos commandes bash"
+            },
+            "active-directory": {
+                title: "Active Directory",
+                description: "Gestion et administration d'Active Directory",
+                category: "Administration Système",
+                tags: ["Active Directory", "Windows", "Authentification"],
+                keywords: "active directory ad authentification domaine utilisateurs groupes"
+            },
+            "powershell": {
+                title: "PowerShell",
+                description: "Scripts et automatisation avec PowerShell",
+                category: "Administration Système",
+                tags: ["PowerShell", "Scripts", "Automatisation"],
+                keywords: "powershell scripts automatisation cmdlets windows administration"
+            },
+            "securite-reseau": {
+                title: "Sécurité Réseau",
+                description: "Concepts et pratiques de sécurité réseau",
+                category: "Cybersécurité",
+                tags: ["Sécurité", "Réseau", "Firewall"],
+                keywords: "sécurité réseau firewall vpn ips ids protection"
+            },
+            "cryptographie": {
+                title: "Cryptographie",
+                description: "Principes et applications de la cryptographie",
+                category: "Cybersécurité",
+                tags: ["Cryptographie", "Chiffrement", "Sécurité"],
+                keywords: "cryptographie chiffrement ssl tls certificats hash"
+            },
+            "pentest": {
+                title: "Tests d'Intrusion",
+                description: "Méthodologies et outils pour les tests d'intrusion",
+                category: "Cybersécurité",
+                tags: ["Pentest", "Sécurité", "Tests"],
+                keywords: "pentest tests intrusion sécurité vulnérabilités audit"
+            },
+            "siem": {
+                title: "SIEM & SOC",
+                description: "Security Information and Event Management et Security Operations Center",
+                category: "Cybersécurité",
+                tags: ["SIEM", "SOC", "Monitoring"],
+                keywords: "siem soc monitoring sécurité événements logs analyse"
+            },
+            "virtualisation": {
+                title: "Virtualisation VMware",
+                description: "Technologies de virtualisation VMware",
+                category: "Infrastructure",
+                tags: ["VMware", "Virtualisation", "Infrastructure"],
+                keywords: "vmware virtualisation esxi vcenter infrastructure cloud"
+            },
+            "reseau": {
+                title: "Architecture Réseau",
+                description: "Conception et architecture des réseaux d'entreprise",
+                category: "Infrastructure",
+                tags: ["Réseau", "Architecture", "Infrastructure"],
+                keywords: "réseau architecture infrastructure lan wan vlan routage"
+            },
+            "stockage": {
+                title: "Solutions de Stockage",
+                description: "Technologies et solutions de stockage",
+                category: "Infrastructure",
+                tags: ["Stockage", "Storage", "Infrastructure"],
+                keywords: "stockage storage san nas raid sauvegarde"
+            },
+            "cloud": {
+                title: "Cloud Computing",
+                description: "Technologies et services cloud",
+                category: "Infrastructure",
+                tags: ["Cloud", "Azure", "AWS"],
+                keywords: "cloud azure aws google computing iaas paas saas"
+            },
+            "methodologies": {
+                title: "Méthodologies Agile",
+                description: "Méthodologies agiles pour la gestion de projet",
+                category: "Gestion de Projet",
+                tags: ["Agile", "Scrum", "Méthodologies"],
+                keywords: "agile scrum kanban méthodologies projet développement"
+            },
+            "outils": {
+                title: "Outils de Gestion",
+                description: "Outils et logiciels de gestion de projet",
+                category: "Gestion de Projet",
+                tags: ["Outils", "Gestion", "Projet"],
+                keywords: "outils gestion projet jira confluence trello"
+            },
+            "itil": {
+                title: "ITIL v4",
+                description: "Framework ITIL v4 pour la gestion des services IT",
+                category: "Gestion de Projet",
+                tags: ["ITIL", "Services", "Framework"],
+                keywords: "itil framework services it gestion processus amélioration"
+            }
+        };
+
+        // Variable pour l'article actuel
+        let currentArticle = 'windows-server';
+
+        // Charger un article Markdown
+        async function loadMarkdownArticle(articleId) {
+            try {
+                console.log(`🔍 Chargement de l'article: ${articleId}`);
+                
+                const filePath = articlesMapping[articleId];
+                if (!filePath) {
+                    throw new Error(`Article non trouvé: ${articleId}`);
+                }
+                
+                const response = await fetch(filePath);
+                if (!response.ok) {
+                    throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+                }
+                
+                const markdownContent = await response.text();
+                const { metadata, content } = parseFrontMatter(markdownContent);
+                const htmlContent = marked.parse(content);
+                
+                updateContent(articleId, metadata, htmlContent);
+                updateActiveNavItem(articleId);
+                updateUrl(articleId);
+                
+                currentArticle = articleId;
+                console.log('✅ Article chargé avec succès!');
+                
+            } catch (error) {
+                console.error(`❌ Erreur lors du chargement de l'article ${articleId}:`, error);
+                showErrorMessage(`Impossible de charger l'article demandé.`);
+            }
+        }
+
+        // Parser le front matter YAML
+        function parseFrontMatter(markdown) {
+            const frontMatterMatch = markdown.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+            
+            if (!frontMatterMatch) {
+                return { metadata: {}, content: markdown };
+            }
+            
+            const [, frontMatter, content] = frontMatterMatch;
+            const metadata = {};
+            
+            frontMatter.split('\n').forEach(line => {
+                const match = line.match(/^(\w+):\s*(.+)$/);
+                if (match) {
+                    const [, key, value] = match;
+                    metadata[key] = value.replace(/['"]/g, '');
+                }
+            });
+            
+            return { metadata, content };
+        }
+
+        // Mettre à jour le contenu de la page
+        function updateContent(articleId, metadata, htmlContent) {
+            // Breadcrumb
+            const breadcrumb = document.querySelector('.breadcrumb');
+            breadcrumb.innerHTML = `
+                <a href="#" onclick="loadMarkdownArticle('windows-server')" class="breadcrumb-item">Accueil</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-item active">${metadata.title || 'Article'}</span>
+            `;
+            
+            // En-tête du contenu
+            const contentHeader = document.querySelector('.content-header');
+            const title = metadata.title || 'Article';
+            const category = metadata.category || 'Documentation';
+            const readingTime = metadata.reading_time || '';
+            const lastUpdated = metadata.last_updated || '';
+            const author = metadata.author || '';
+            
+            contentHeader.innerHTML = `
+                <h1>${title}</h1>
+                <div class="meta">
+                    <span class="badge">${category}</span>
+                    ${readingTime ? `<span class="meta-item">📖 ${readingTime}</span>` : ''}
+                    ${lastUpdated ? `<span class="meta-item">🔄 Mis à jour le ${lastUpdated}</span>` : ''}
+                    ${author ? `<span class="meta-item">👤 ${author}</span>` : ''}
+                </div>
+            `;
+            
+            // Contenu principal
+            const contentDiv = document.querySelector('.content');
+            const processedContent = processMarkdownHTML(htmlContent);
+            contentDiv.innerHTML = processedContent;
+            
+            // Mettre à jour le titre de la page
+            document.title = `${title} - Wiki Sysadmin`;
+            
+            // Re-appliquer Prism.js
+            if (typeof Prism !== 'undefined') {
+                Prism.highlightAll();
+            }
+        }
+
+        // Traiter le HTML généré par Markdown
+        function processMarkdownHTML(html) {
+            // Ajouter des classes aux blockquotes
+            html = html.replace(/<blockquote>/g, '<blockquote class="note">');
+            
+            // Traiter les blockquotes avec type
+            html = html.replace(/<blockquote class="note"><p><strong>(Attention|Warning|Avertissement):<\/strong>/g, 
+                '<blockquote class="warning"><p><strong>$1:</strong>');
+            html = html.replace(/<blockquote class="note"><p><strong>(Info|Information):<\/strong>/g, 
+                '<blockquote class="info"><p><strong>$1:</strong>');
+            html = html.replace(/<blockquote class="note"><p><strong>(Conseil|Tip):<\/strong>/g, 
+                '<blockquote class="tip"><p><strong>$1:</strong>');
+            
+            return html;
+        }
+
+        // Mettre à jour l'élément actif dans la navigation
+        function updateActiveNavItem(articleId) {
+            // Supprimer toutes les classes active
+            document.querySelectorAll('.nav-link, .submenu-item').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Ajouter la classe active au lien correspondant
+            const targetLink = document.querySelector(`[onclick*="${articleId}"]`);
+            if (targetLink) {
+                targetLink.classList.add('active');
+                
+                // Si c'est un sous-menu, ouvrir le menu parent
+                const parentSubmenu = targetLink.closest('.submenu');
+                if (parentSubmenu) {
+                    parentSubmenu.classList.add('expanded');
+                    const toggle = parentSubmenu.parentElement.querySelector('.nav-toggle');
+                    if (toggle) toggle.textContent = '▲';
+                }
+            }
+        }
+
+        // Mettre à jour l'URL
+        function updateUrl(articleId) {
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('article', articleId);
+            window.history.pushState({}, '', newUrl);
+        }
+
+        // Afficher un message d'erreur
+        function showErrorMessage(message) {
+            const contentDiv = document.querySelector('.content');
+            contentDiv.innerHTML = `
+                <div style="color: red; padding: 20px; border: 1px solid red; border-radius: 8px; background: #fef2f2;">
+                    <h3>❌ Erreur</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+
+        // Fonction de recherche
+        function performSearch(query) {
+            if (query.length < 2) {
+                hideSearchResults();
+                return;
+            }
+
+            query = query.toLowerCase().trim();
+            const results = [];
+
+            // Rechercher dans l'index
+            Object.entries(searchIndex).forEach(([articleId, data]) => {
+                let score = 0;
+                const searchText = `${data.title} ${data.description} ${data.category} ${data.keywords} ${data.tags.join(' ')}`.toLowerCase();
+
+                // Score basé sur la correspondance
+                if (data.title.toLowerCase().includes(query)) score += 10;
+                if (data.description.toLowerCase().includes(query)) score += 5;
+                if (data.category.toLowerCase().includes(query)) score += 8;
+                if (data.keywords.toLowerCase().includes(query)) score += 6;
+                if (data.tags.some(tag => tag.toLowerCase().includes(query))) score += 7;
+
+                // Recherche de mots individuels
+                const queryWords = query.split(' ');
+                queryWords.forEach(word => {
+                    if (word.length > 2 && searchText.includes(word)) {
+                        score += 2;
+                    }
+                });
+
+                if (score > 0) {
+                    results.push({
+                        articleId,
+                        ...data,
+                        score
+                    });
+                }
+            });
+
+            // Trier par score décroissant
+            results.sort((a, b) => b.score - a.score);
+
+            // Limiter à 8 résultats
+            const limitedResults = results.slice(0, 8);
+
+            displaySearchResults(limitedResults, query);
+        }
+
+        // Afficher les résultats de recherche
+        function displaySearchResults(results, query) {
+            const searchResults = document.getElementById('searchResults');
+            
+            if (results.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="search-no-results">
+                        Aucun résultat pour "${query}"
+                    </div>
+                `;
+            } else {
+                let html = '';
+                results.forEach(result => {
+                    // Highlight du terme recherché dans le titre
+                    const highlightedTitle = highlightSearchTerm(result.title, query);
+                    const highlightedDescription = highlightSearchTerm(result.description, query);
+                    
+                    html += `
+                        <div class="search-result-item" onclick="selectSearchResult('${result.articleId}')">
+                            <div class="search-result-title">${highlightedTitle}</div>
+                            <div class="search-result-description">${highlightedDescription}</div>
+                            <div class="search-result-category">${result.category}</div>
+                        </div>
+                    `;
+                });
+                searchResults.innerHTML = html;
+            }
+            
+            searchResults.classList.add('visible');
+        }
+
+        // Highlight des termes de recherche
+        function highlightSearchTerm(text, query) {
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<mark style="background: #fff3cd; padding: 0.125rem;">$1</mark>');
+        }
+
+        // Cacher les résultats de recherche
+        function hideSearchResults() {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.classList.remove('visible');
+        }
+
+        // Sélectionner un résultat de recherche
+        function selectSearchResult(articleId) {
+            hideSearchResults();
+            document.getElementById('searchInput').value = '';
+            loadMarkdownArticle(articleId);
+        }
+
+        // Initialiser la recherche
+        function initializeSearch() {
+        const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+        
+            // Événement de saisie avec debounce
+            let searchTimeout;
+        searchInput.addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    performSearch(e.target.value);
+                }, 300);
+            });
+
+            // Gestion des touches
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideSearchResults();
+                    searchInput.blur();
+                } else if (e.key === 'Enter') {
+                    const firstResult = searchResults.querySelector('.search-result-item');
+                    if (firstResult) {
+                        const articleId = firstResult.getAttribute('onclick').match(/'([^']+)'/)[1];
+                        selectSearchResult(articleId);
+                    }
+                }
+            });
+
+            // Cacher les résultats quand on clique ailleurs
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.search-box')) {
+                    hideSearchResults();
+                }
+            });
+
+            // Raccourci clavier Ctrl+K ou Cmd+K pour focus sur recherche
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                    searchInput.focus();
+                }
+            });
+        }
+
         // Initialisation du toggle mobile
         function initializeMobileToggle() {
-            const mobileToggle = document.getElementById('mobileToggle');
-            const sidebar = document.getElementById('sidebar');
-            
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+        
             if (mobileToggle && sidebar) {
-                mobileToggle.addEventListener('click', function() {
+        mobileToggle.addEventListener('click', function() {
                     sidebar.classList.toggle('mobile-open');
                 });
                 
@@ -666,7 +1231,7 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
             const submenuToggles = document.querySelectorAll('.nav-item.has-submenu .nav-link');
             submenuToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
+                e.preventDefault();
                     const navItem = this.parentElement;
                     const submenu = navItem.querySelector('.submenu');
                     const toggleIcon = this.querySelector('.nav-toggle');
@@ -677,20 +1242,28 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
                     } else {
                         submenu.classList.add('expanded');
                         toggleIcon.textContent = '▲';
-                    }
-                });
+                }
             });
+        });
         }
+
+        // Gestion du bouton retour/avancer du navigateur
+        window.addEventListener('popstate', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('article') || 'windows-server';
+            loadMarkdownArticle(articleId);
+        });
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
             initializeMobileToggle();
             initializeSubmenus();
+            initializeSearch();
             
-            // Activer Prism.js pour la coloration syntaxique
-            if (typeof Prism !== 'undefined') {
-                Prism.highlightAll();
-            }
+            // Charger l'article par défaut ou celui spécifié dans l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const articleId = urlParams.get('article') || 'windows-server';
+            loadMarkdownArticle(articleId);
         });
     </script>
 </body>
