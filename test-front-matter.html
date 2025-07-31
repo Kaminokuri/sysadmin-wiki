@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Front Matter Parsing</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; }
+        .test { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test du Parsing Front Matter</h1>
+    
+    <div id="results"></div>
+    
+    <script>
+        // Copie de la fonction corrigée
+        function parseFrontMatter(markdown) {
+            // Normaliser les fins de ligne et chercher le pattern front matter
+            const normalizedMarkdown = markdown.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+            const frontMatterMatch = normalizedMarkdown.match(/^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/);
+            
+            if (!frontMatterMatch) {
+                console.warn('Pas de front matter trouvé, retour du contenu complet');
+                return { metadata: {}, content: markdown };
+            }
+            
+            const [, frontMatter, content] = frontMatterMatch;
+            const metadata = {};
+            
+            // Parser chaque ligne du front matter
+            frontMatter.split('\n').forEach(line => {
+                line = line.trim();
+                if (line && !line.startsWith('#')) {
+                    const match = line.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*:\s*(.+)$/);
+                    if (match) {
+                        const [, key, value] = match;
+                        // Nettoyer les guillemets et crochets
+                        let cleanValue = value.trim();
+                        if ((cleanValue.startsWith('"') && cleanValue.endsWith('"')) ||
+                            (cleanValue.startsWith("'") && cleanValue.endsWith("'"))) {
+                            cleanValue = cleanValue.slice(1, -1);
+                        }
+                        // Gérer les arrays JSON
+                        if (cleanValue.startsWith('[') && cleanValue.endsWith(']')) {
+                            try {
+                                cleanValue = JSON.parse(cleanValue).join(', ');
+                            } catch (e) {
+                                cleanValue = cleanValue.slice(1, -1);
+                            }
+                        }
+                        metadata[key] = cleanValue;
+                    }
+                }
+            });
+            
+            console.log('Front matter parsé:', metadata);
+            return { metadata, content: content.trim() };
+        }
+
+        async function testFrontMatter() {
+            const results = document.getElementById('results');
+            
+            try {
+                const response = await fetch('content/sysadmin/windows-server.md');
+                const content = await response.text();
+                
+                results.innerHTML += `
+                    <div class="test">
+                        <h3>📄 Contenu brut chargé</h3>
+                        <pre>${content.substring(0, 500)}...</pre>
+                    </div>
+                `;
+                
+                const { metadata, parsedContent } = parseFrontMatter(content);
+                
+                results.innerHTML += `
+                    <div class="test ${Object.keys(metadata).length > 0 ? 'success' : 'error'}">
+                        <h3>📋 Métadonnées extraites (${Object.keys(metadata).length} propriétés)</h3>
+                        <pre>${JSON.stringify(metadata, null, 2)}</pre>
+                    </div>
+                `;
+                
+                results.innerHTML += `
+                    <div class="test ${parsedContent.length > 0 ? 'success' : 'error'}">
+                        <h3>📝 Contenu Markdown extrait</h3>
+                        <pre>${parsedContent.substring(0, 500)}...</pre>
+                    </div>
+                `;
+                
+            } catch (error) {
+                results.innerHTML += `
+                    <div class="test error">
+                        <h3>❌ Erreur</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Lancer le test
+        testFrontMatter();
+    </script>
+</body>
+</html>
