@@ -29,7 +29,12 @@
 ### [Virtualisation VMware](infrastructure/virtualisation.md)
 ### [Architecture Réseau](infrastructure/reseau.md)
 ### [Solutions de Stockage](infrastructure/stockage.md)
-### [Cloud Computing](infrastructure/cloud.md)
+
+### Cloud Computing
+<!-- file: infrastructure/cloud.md -->
+- [Amazon AWS](infrastructure/cloud/aws.md)
+- [Microsoft Azure](infrastructure/cloud/azure.md)
+- [Google Cloud](infrastructure/cloud/gcp.md)
 
 ## 📋 Gestion de Projet
 <!-- order: 4, icon: 📋 -->
@@ -49,4 +54,7 @@
 ### [CI/CD Pipeline](devops/ci-cd.md)
 <!-- badge: HOT -->
 
-### [Kubernetes](devops/kubernetes.md)
+### Kubernetes
+<!-- file: devops/kubernetes.md -->
+- [Pods & Services](devops/kubernetes/pods.md)
+- [Déploiements](devops/kubernetes/deployments.md)
