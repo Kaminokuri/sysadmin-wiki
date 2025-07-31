@@ -1208,7 +1208,7 @@ Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{n="Size(GB)";e={[math
         
             // Événement de saisie avec debounce
             let searchTimeout;
-        searchInput.addEventListener('input', function(e) {
+            searchInput.addEventListener('input', function(e) {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
                     performSearch(e.target.value);
