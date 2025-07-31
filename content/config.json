@@ -1,0 +1,133 @@
+{
+  "navigation": {
+    "Administration Système": {
+      "icon": "⚙️",
+      "items": [
+        {
+          "id": "windows-server",
+          "title": "Windows Server",
+          "file": "sysadmin/windows-server.md",
+          "badge": null,
+          "subitems": [
+            {
+              "id": "windows-server-installation",
+              "title": "Installation & Configuration",
+              "file": "sysadmin/windows-server/installation.md",
+              "badge": null
+            },
+            {
+              "id": "windows-server-roles",
+              "title": "Rôles & Fonctionnalités",
+              "file": "sysadmin/windows-server/roles.md",
+              "badge": null
+            }
+          ]
+        },
+        {
+          "id": "linux-admin",
+          "title": "Linux Administration",
+          "file": "sysadmin/linux-admin.md",
+          "badge": null
+        },
+        {
+          "id": "active-directory",
+          "title": "Active Directory",
+          "file": "sysadmin/active-directory.md",
+          "badge": null
+        },
+        {
+          "id": "powershell",
+          "title": "PowerShell",
+          "file": "sysadmin/powershell.md",
+          "badge": "NEW"
+        }
+      ]
+    },
+    "Cybersécurité": {
+      "icon": "🔒",
+      "items": [
+        {
+          "id": "securite-reseau",
+          "title": "Sécurité Réseau",
+          "file": "cybersecurite/securite-reseau.md",
+          "badge": null
+        },
+        {
+          "id": "cryptographie",
+          "title": "Cryptographie",
+          "file": "cybersecurite/cryptographie.md",
+          "badge": null
+        },
+        {
+          "id": "pentest",
+          "title": "Tests d'Intrusion",
+          "file": "cybersecurite/pentest.md",
+          "badge": null
+        },
+        {
+          "id": "siem",
+          "title": "SIEM & SOC",
+          "file": "cybersecurite/siem.md",
+          "badge": null
+        }
+      ]
+    },
+    "Infrastructure": {
+      "icon": "🏗️",
+      "items": [
+        {
+          "id": "virtualisation",
+          "title": "Virtualisation VMware",
+          "file": "infrastructure/virtualisation.md",
+          "badge": null
+        },
+        {
+          "id": "reseau",
+          "title": "Architecture Réseau",
+          "file": "infrastructure/reseau.md",
+          "badge": null
+        },
+        {
+          "id": "stockage",
+          "title": "Solutions de Stockage",
+          "file": "infrastructure/stockage.md",
+          "badge": null
+        },
+        {
+          "id": "cloud",
+          "title": "Cloud Computing",
+          "file": "infrastructure/cloud.md",
+          "badge": null
+        }
+      ]
+    },
+    "Gestion de Projet": {
+      "icon": "📋",
+      "items": [
+        {
+          "id": "methodologies",
+          "title": "Méthodologies Agile",
+          "file": "gestion-projet/methodologies.md",
+          "badge": null
+        },
+        {
+          "id": "outils",
+          "title": "Outils de Gestion",
+          "file": "gestion-projet/outils.md",
+          "badge": null
+        },
+        {
+          "id": "itil",
+          "title": "ITIL v4",
+          "file": "gestion-projet/itil.md",
+          "badge": null
+        }
+      ]
+    }
+  },
+  "default_article": "windows-server",
+  "breadcrumb_base": {
+    "home": "Accueil",
+    "separator": "›"
+  }
+} 
