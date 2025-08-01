@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Sysadmin Wiki</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Description">
+  <meta name="description" content="Sysadmin Wiki">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 </head>
@@ -12,11 +12,43 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: '',
-      repo: ''
+      name: 'Sysadmin Wiki',
+      repo: '',
+      loadSidebar: true,           // ← IMPORTANT : Active la sidebar
+      loadNavbar: true,
+      subMaxLevel: 2,              // ← Affiche les sous-niveaux
+      auto2top: true,              // ← Retour en haut automatique
+      homepage: 'README.md',        // ← Page d'accueil
+      search: {
+        maxAge: 86400000,
+        placeholder: '🔍 Rechercher...',
+        noData: 'Aucun résultat trouvé',
+        depth: 4,
+        paths: 'auto',
+        hideOtherSidebarContent: false
+      },
+      copyCode: {
+        buttonText: '📋 Copier',
+        errorText: 'Erreur',
+        successText: 'Copié !'
+      }
+      
     }
   </script>
-  <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js">  </script>
+
+  <!-- Prism.js Core -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+
+  <!-- Langages supplémentaires -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-powershell.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+
 </body>
 </html>
