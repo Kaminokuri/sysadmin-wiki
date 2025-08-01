@@ -2,37 +2,404 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Sysadmin Wiki</title>
+  <title>SysAdmin Wiki</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Sysadmin Wiki">
+  <meta name="description" content="SysAdmin Wiki - Documentation technique professionnelle">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+  
+  <!-- Thème de base Docsify -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css">
+  
+  <!-- Fonts pour le style terminal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* === THÈME SYSADMIN PERSONNALISÉ === */
+    
+    :root {
+      --terminal-bg: #0d1117;
+      --terminal-surface: #161b22;
+      --terminal-border: #21262d;
+      --terminal-green: #39d353;
+      --terminal-cyan: #56d4dd;
+      --terminal-orange: #f85149;
+      --terminal-yellow: #d29922;
+      --terminal-purple: #a5a5f5;
+      --terminal-white: #e6edf3;
+      --terminal-gray: #7d8590;
+      --terminal-red: #ff7b72;
+    }
+
+    /* Corps principal */
+    body {
+      background: var(--terminal-bg) !important;
+      color: var(--terminal-white) !important;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+      line-height: 1.6;
+    }
+
+    /* Conteneur principal */
+    #app, .app {
+      background: var(--terminal-bg) !important;
+    }
+
+    /* === SIDEBAR STYLE TERMINAL === */
+    .sidebar {
+      background: var(--terminal-surface) !important;
+      border-right: 2px solid var(--terminal-border) !important;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5) !important;
+    }
+
+    /* Titre du wiki dans la sidebar */
+    .app-name-link {
+      color: var(--terminal-green) !important;
+      font-weight: 700 !important;
+      font-size: 1.2rem !important;
+      text-shadow: 0 0 10px rgba(57, 211, 83, 0.3) !important;
+      border-bottom: 1px solid var(--terminal-border) !important;
+      padding-bottom: 10px !important;
+      margin-bottom: 20px !important;
+    }
+
+    .app-name-link:before {
+      content: "$ ";
+      color: var(--terminal-cyan);
+      font-weight: bold;
+    }
+
+    /* Navigation sidebar */
+    .sidebar-nav ul {
+      padding: 0 !important;
+    }
+
+    .sidebar-nav li {
+      margin: 2px 0 !important;
+    }
+
+    .sidebar-nav a {
+      color: var(--terminal-white) !important;
+      border-radius: 4px !important;
+      padding: 8px 12px !important;
+      transition: all 0.3s ease !important;
+      border-left: 3px solid transparent !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    .sidebar-nav a:hover {
+      background: var(--terminal-border) !important;
+      border-left-color: var(--terminal-cyan) !important;
+      color: var(--terminal-cyan) !important;
+      transform: translateX(3px) !important;
+    }
+
+    .sidebar-nav a.active {
+      background: var(--terminal-border) !important;
+      border-left-color: var(--terminal-green) !important;
+      color: var(--terminal-green) !important;
+      font-weight: 500 !important;
+    }
+
+    /* Sous-menus */
+    .sidebar-nav ul ul a {
+      padding-left: 24px !important;
+      font-size: 0.9rem !important;
+    }
+
+    .sidebar-nav ul ul a:before {
+      content: "├─ ";
+      color: var(--terminal-gray);
+      margin-right: 5px;
+    }
+
+    .sidebar-nav ul ul li:last-child a:before {
+      content: "└─ ";
+    }
+
+    /* === CONTENU PRINCIPAL === */
+    .content {
+      background: var(--terminal-bg) !important;
+      padding: 20px !important;
+    }
+
+    .markdown-section {
+      max-width: none !important;
+      padding: 20px !important;
+    }
+
+    /* Titres style terminal */
+    .markdown-section h1 {
+      color: var(--terminal-green) !important;
+      border-bottom: 2px solid var(--terminal-green) !important;
+      padding-bottom: 10px !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-weight: 700 !important;
+      text-shadow: 0 0 10px rgba(57, 211, 83, 0.2) !important;
+    }
+
+    .markdown-section h1:before {
+      content: "# ";
+      color: var(--terminal-cyan);
+    }
+
+    .markdown-section h2 {
+      color: var(--terminal-cyan) !important;
+      border-bottom: 1px solid var(--terminal-border) !important;
+      padding-bottom: 5px !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      font-weight: 600 !important;
+    }
+
+    .markdown-section h2:before {
+      content: "## ";
+      color: var(--terminal-gray);
+    }
+
+    .markdown-section h3 {
+      color: var(--terminal-purple) !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    .markdown-section h3:before {
+      content: "### ";
+      color: var(--terminal-gray);
+    }
+
+    /* Paragraphes */
+    .markdown-section p {
+      color: var(--terminal-white) !important;
+      line-height: 1.7 !important;
+    }
+
+    /* Liens */
+    .markdown-section a {
+      color: var(--terminal-cyan) !important;
+      text-decoration: none !important;
+      border-bottom: 1px dotted var(--terminal-cyan) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .markdown-section a:hover {
+      color: var(--terminal-green) !important;
+      border-bottom-color: var(--terminal-green) !important;
+      text-shadow: 0 0 5px rgba(57, 211, 83, 0.5) !important;
+    }
+
+    /* === BLOCS DE CODE === */
+    .markdown-section pre {
+      background: var(--terminal-surface) !important;
+      border: 1px solid var(--terminal-border) !important;
+      border-radius: 6px !important;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3) !important;
+    }
+
+    .markdown-section code {
+      background: var(--terminal-surface) !important;
+      color: var(--terminal-green) !important;
+      padding: 2px 6px !important;
+      border-radius: 3px !important;
+      font-family: 'Fira Code', monospace !important;
+      border: 1px solid var(--terminal-border) !important;
+    }
+
+    .markdown-section pre code {
+      color: var(--terminal-white) !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    /* === LISTES === */
+    .markdown-section ul li {
+      color: var(--terminal-white) !important;
+      margin: 5px 0 !important;
+    }
+
+    .markdown-section ul li:before {
+      content: "▸ ";
+      color: var(--terminal-cyan);
+      font-weight: bold;
+      margin-right: 5px;
+    }
+
+    /* === BLOCKQUOTES === */
+    .markdown-section blockquote {
+      background: var(--terminal-surface) !important;
+      border-left: 4px solid var(--terminal-orange) !important;
+      color: var(--terminal-white) !important;
+      padding: 15px 20px !important;
+      margin: 20px 0 !important;
+      border-radius: 0 6px 6px 0 !important;
+    }
+
+    .markdown-section blockquote:before {
+      content: "⚠️ ";
+      color: var(--terminal-orange);
+      font-size: 1.2rem;
+    }
+
+    /* === TABLEAUX === */
+    .markdown-section table {
+      background: var(--terminal-surface) !important;
+      border: 1px solid var(--terminal-border) !important;
+      border-radius: 6px !important;
+      overflow: hidden !important;
+    }
+
+    .markdown-section table th {
+      background: var(--terminal-border) !important;
+      color: var(--terminal-green) !important;
+      font-weight: 600 !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    .markdown-section table td {
+      color: var(--terminal-white) !important;
+      border-color: var(--terminal-border) !important;
+    }
+
+    /* === SCROLLBAR PERSONNALISÉE === */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--terminal-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--terminal-border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--terminal-gray);
+    }
+
+    /* === BARRE DE RECHERCHE === */
+    .search input {
+      background: var(--terminal-surface) !important;
+      border: 1px solid var(--terminal-border) !important;
+      color: var(--terminal-white) !important;
+      border-radius: 6px !important;
+      font-family: 'JetBrains Mono', monospace !important;
+    }
+
+    .search input:focus {
+      border-color: var(--terminal-cyan) !important;
+      box-shadow: 0 0 0 2px rgba(86, 212, 221, 0.2) !important;
+    }
+
+    .search .results-panel {
+      background: var(--terminal-surface) !important;
+      border: 1px solid var(--terminal-border) !important;
+      border-radius: 6px !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+    }
+
+    .search .results-panel .matching-post {
+      border-bottom: 1px solid var(--terminal-border) !important;
+    }
+
+    .search .results-panel .matching-post:hover {
+      background: var(--terminal-border) !important;
+    }
+
+    /* === RESPONSIVE === */
+    @media screen and (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-300px);
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .content {
+        padding: 10px !important;
+      }
+      
+      .markdown-section {
+        padding: 10px !important;
+      }
+    }
+
+    /* === EFFETS SPÉCIAUX === */
+    .sidebar, .content {
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Effet de frappe pour le titre */
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .app-name-link {
+      animation: typing 2s steps(20, end);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">⚡ Chargement du terminal...</div>
   <script>
     window.$docsify = {
-      name: 'Sysadmin Wiki',
+      name: '⚡ SysAdmin Wiki',
       repo: '',
-      loadSidebar: true,           // ← IMPORTANT : Active la sidebar
-      loadNavbar: true,
-      subMaxLevel: 2,              // ← Affiche les sous-niveaux
-      auto2top: true,              // ← Retour en haut automatique
-      homepage: 'README.md',        // ← Page d'accueil
+      loadSidebar: true,
+      loadNavbar: false,
+      subMaxLevel: 3,
+      auto2top: true,
+      homepage: 'README.md',
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md',
+        '/.*/_navbar.md': '/_navbar.md'
+      },
       search: {
         maxAge: 86400000,
-        placeholder: '🔍 Rechercher...',
-        noData: 'Aucun résultat trouvé',
+        placeholder: '🔍 Rechercher dans le wiki...',
+        noData: '❌ Aucun résultat trouvé',
         depth: 4,
         paths: 'auto',
         hideOtherSidebarContent: false
       },
       copyCode: {
         buttonText: '📋 Copier',
-        errorText: 'Erreur',
-        successText: 'Copié !'
-      }
-      
+        errorText: '❌ Erreur',
+        successText: '✅ Copié !'
+      },
+      plugins: [
+        function(hook) {
+          // Ajouter des icônes et améliorations
+          hook.doneEach(function() {
+            // Ajouter des icônes aux titres selon le contenu
+            const headings = document.querySelectorAll('h1, h2, h3');
+            headings.forEach(heading => {
+              const text = heading.textContent.toLowerCase();
+              if (text.includes('server') || text.includes('serveur')) {
+                heading.innerHTML = '🖥️ ' + heading.innerHTML;
+              } else if (text.includes('network') || text.includes('réseau')) {
+                heading.innerHTML = '🌐 ' + heading.innerHTML;
+              } else if (text.includes('security') || text.includes('sécurité')) {
+                heading.innerHTML = '🔒 ' + heading.innerHTML;
+              } else if (text.includes('backup') || text.includes('sauvegarde')) {
+                heading.innerHTML = '💾 ' + heading.innerHTML;
+              } else if (text.includes('monitor') || text.includes('surveillance')) {
+                heading.innerHTML = '📊 ' + heading.innerHTML;
+              }
+            });
+          });
+        }
+      ]
     }
   </script>
 
@@ -40,15 +407,13 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js">  </script>
-
-  <!-- Prism.js Core -->
+  <!-- Prism.js avec thème sombre -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
-
-  <!-- Langages supplémentaires -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-powershell.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-docker.min.js"></script>
 
 </body>
 </html>
