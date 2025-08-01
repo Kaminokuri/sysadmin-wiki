@@ -14,303 +14,593 @@
   <!-- Fonts pour le style terminal -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Fira+Code:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* === THÈME SYSADMIN PERSONNALISÉ === */
+    /* === THÈME SYSADMIN AMÉLIORÉ === */
     
     :root {
-      --terminal-bg: #0d1117;
-      --terminal-surface: #161b22;
-      --terminal-border: #21262d;
-      --terminal-green: #39d353;
-      --terminal-cyan: #56d4dd;
-      --terminal-orange: #f85149;
-      --terminal-yellow: #d29922;
-      --terminal-purple: #a5a5f5;
-      --terminal-white: #e6edf3;
-      --terminal-gray: #7d8590;
-      --terminal-red: #ff7b72;
+      --terminal-bg: #0a0e1a;
+      --terminal-surface: #0f1420;
+      --terminal-surface-light: #141926;
+      --terminal-border: #1e2533;
+      --terminal-green: #00ff88;
+      --terminal-green-dark: #00cc6a;
+      --terminal-cyan: #00d9ff;
+      --terminal-cyan-dark: #00a8cc;
+      --terminal-orange: #ff6b6b;
+      --terminal-yellow: #ffd93d;
+      --terminal-purple: #c77dff;
+      --terminal-white: #e8eaed;
+      --terminal-gray: #8b92a4;
+      --terminal-red: #ff4757;
+      --terminal-blue: #339af0;
+      
+      /* Nouvelles couleurs pour les gradients */
+      --gradient-start: #00ff88;
+      --gradient-end: #00d9ff;
+      --card-shadow: rgba(0, 255, 136, 0.1);
     }
 
-    /* Corps principal */
+    /* Animation de fond */
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Corps principal avec gradient subtil */
     body {
       background: var(--terminal-bg) !important;
       color: var(--terminal-white) !important;
-      font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
       line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Effet de grille en arrière-plan */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: grid-move 20s linear infinite;
+    }
+
+    @keyframes grid-move {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
     }
 
     /* Conteneur principal */
     #app, .app {
-      background: var(--terminal-bg) !important;
+      background: transparent !important;
     }
 
-    /* === SIDEBAR STYLE TERMINAL === */
+    /* === SIDEBAR MODERNE === */
     .sidebar {
-      background: var(--terminal-surface) !important;
-      border-right: 2px solid var(--terminal-border) !important;
-      box-shadow: 2px 0 10px rgba(0,0,0,0.5) !important;
+      background: rgba(15, 20, 32, 0.95) !important;
+      backdrop-filter: blur(10px) !important;
+      border-right: 1px solid var(--terminal-border) !important;
+      box-shadow: 
+        4px 0 24px rgba(0, 0, 0, 0.4),
+        inset -1px 0 0 rgba(0, 255, 136, 0.1) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
-    /* Titre du wiki dans la sidebar */
+    /* Logo/Titre avec animation */
     .app-name-link {
       color: var(--terminal-green) !important;
       font-weight: 700 !important;
-      font-size: 1.2rem !important;
-      text-shadow: 0 0 10px rgba(57, 211, 83, 0.3) !important;
-      border-bottom: 1px solid var(--terminal-border) !important;
-      padding-bottom: 10px !important;
-      margin-bottom: 20px !important;
+      font-size: 1.4rem !important;
+      text-shadow: 
+        0 0 20px rgba(0, 255, 136, 0.5),
+        0 0 40px rgba(0, 255, 136, 0.3) !important;
+      border-bottom: 2px solid transparent !important;
+      background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding: 20px 0 15px 0 !important;
+      margin: 0 20px 20px 20px !important;
+      display: block !important;
+      text-align: center !important;
+      position: relative !important;
+      letter-spacing: 1px;
     }
 
-    .app-name-link:before {
-      content: "$ ";
-      color: var(--terminal-cyan);
-      font-weight: bold;
+    .app-name-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--terminal-green), transparent);
+      animation: pulse-line 2s ease-in-out infinite;
     }
 
-    /* Navigation sidebar */
+    @keyframes pulse-line {
+      0%, 100% { opacity: 0.3; transform: scaleX(0.5); }
+      50% { opacity: 1; transform: scaleX(1); }
+    }
+
+    /* Navigation sidebar moderne */
+    .sidebar-nav {
+      padding: 0 15px !important;
+    }
+
     .sidebar-nav ul {
       padding: 0 !important;
+      margin: 0 !important;
     }
 
     .sidebar-nav li {
-      margin: 2px 0 !important;
+      margin: 4px 0 !important;
+      list-style: none !important;
     }
 
     .sidebar-nav a {
-      color: var(--terminal-white) !important;
-      border-radius: 4px !important;
-      padding: 8px 12px !important;
-      transition: all 0.3s ease !important;
-      border-left: 3px solid transparent !important;
+      color: var(--terminal-gray) !important;
+      border-radius: 8px !important;
+      padding: 10px 16px !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      border: 1px solid transparent !important;
       font-family: 'JetBrains Mono', monospace !important;
+      font-size: 0.9rem !important;
+      display: block !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .sidebar-nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+      transition: left 0.5s ease;
     }
 
     .sidebar-nav a:hover {
-      background: var(--terminal-border) !important;
-      border-left-color: var(--terminal-cyan) !important;
-      color: var(--terminal-cyan) !important;
-      transform: translateX(3px) !important;
+      background: rgba(0, 255, 136, 0.1) !important;
+      border-color: rgba(0, 255, 136, 0.3) !important;
+      color: var(--terminal-green) !important;
+      transform: translateX(5px) !important;
+      box-shadow: 
+        0 4px 12px rgba(0, 255, 136, 0.15),
+        inset 0 0 0 1px rgba(0, 255, 136, 0.2) !important;
+    }
+
+    .sidebar-nav a:hover::before {
+      left: 100%;
     }
 
     .sidebar-nav a.active {
-      background: var(--terminal-border) !important;
-      border-left-color: var(--terminal-green) !important;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 217, 255, 0.15)) !important;
+      border-color: var(--terminal-green) !important;
       color: var(--terminal-green) !important;
-      font-weight: 500 !important;
+      font-weight: 600 !important;
+      box-shadow: 
+        0 4px 20px rgba(0, 255, 136, 0.2),
+        inset 0 0 20px rgba(0, 255, 136, 0.05) !important;
     }
 
-    /* Sous-menus */
+    /* Sous-menus avec style moderne */
+    .sidebar-nav ul ul {
+      margin-left: 0 !important;
+      padding-left: 0 !important;
+    }
+
     .sidebar-nav ul ul a {
-      padding-left: 24px !important;
-      font-size: 0.9rem !important;
+      padding-left: 32px !important;
+      font-size: 0.85rem !important;
+      position: relative !important;
     }
 
-    .sidebar-nav ul ul a:before {
-      content: "├─ ";
-      color: var(--terminal-gray);
-      margin-right: 5px;
+    .sidebar-nav ul ul a::after {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--terminal-gray);
+      border-radius: 50%;
+      transition: all 0.3s ease;
     }
 
-    .sidebar-nav ul ul li:last-child a:before {
-      content: "└─ ";
+    .sidebar-nav ul ul a:hover::after {
+      background: var(--terminal-green);
+      box-shadow: 0 0 8px var(--terminal-green);
     }
 
-    /* === CONTENU PRINCIPAL === */
+    /* === CONTENU PRINCIPAL MODERNE === */
     .content {
-      background: var(--terminal-bg) !important;
-      padding: 20px !important;
+      background: transparent !important;
+      padding: 30px !important;
     }
 
     .markdown-section {
-      max-width: none !important;
-      padding: 20px !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 40px !important;
+      background: rgba(15, 20, 32, 0.6) !important;
+      backdrop-filter: blur(10px) !important;
+      border-radius: 16px !important;
+      border: 1px solid var(--terminal-border) !important;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
     }
 
-    /* Titres style terminal */
+    /* Titres avec style néon */
     .markdown-section h1 {
       color: var(--terminal-green) !important;
-      border-bottom: 2px solid var(--terminal-green) !important;
-      padding-bottom: 10px !important;
-      font-family: 'JetBrains Mono', monospace !important;
+      border-bottom: none !important;
+      padding-bottom: 20px !important;
+      font-family: 'Inter', sans-serif !important;
       font-weight: 700 !important;
-      text-shadow: 0 0 10px rgba(57, 211, 83, 0.2) !important;
+      font-size: 2.5rem !important;
+      margin-bottom: 30px !important;
+      position: relative !important;
+      letter-spacing: -0.02em !important;
     }
 
-    .markdown-section h1:before {
-      content: "# ";
-      color: var(--terminal-cyan);
+    .markdown-section h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--terminal-green), transparent);
+      border-radius: 2px;
     }
 
     .markdown-section h2 {
       color: var(--terminal-cyan) !important;
-      border-bottom: 1px solid var(--terminal-border) !important;
-      padding-bottom: 5px !important;
-      font-family: 'JetBrains Mono', monospace !important;
+      border-bottom: none !important;
+      padding-bottom: 15px !important;
+      font-family: 'Inter', sans-serif !important;
       font-weight: 600 !important;
+      font-size: 1.8rem !important;
+      margin-top: 40px !important;
+      margin-bottom: 20px !important;
+      position: relative !important;
+      padding-left: 20px !important;
     }
 
-    .markdown-section h2:before {
-      content: "## ";
-      color: var(--terminal-gray);
+    .markdown-section h2::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 24px;
+      background: var(--terminal-cyan);
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--terminal-cyan);
     }
 
     .markdown-section h3 {
       color: var(--terminal-purple) !important;
-      font-family: 'JetBrains Mono', monospace !important;
+      font-family: 'Inter', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 1.4rem !important;
+      margin-top: 30px !important;
     }
 
-    .markdown-section h3:before {
-      content: "### ";
-      color: var(--terminal-gray);
-    }
-
-    /* Paragraphes */
+    /* Paragraphes avec meilleure lisibilité */
     .markdown-section p {
       color: var(--terminal-white) !important;
-      line-height: 1.7 !important;
+      line-height: 1.8 !important;
+      font-size: 1rem !important;
+      margin-bottom: 20px !important;
     }
 
-    /* Liens */
+    /* Liens avec effet moderne */
     .markdown-section a {
       color: var(--terminal-cyan) !important;
       text-decoration: none !important;
-      border-bottom: 1px dotted var(--terminal-cyan) !important;
+      position: relative !important;
+      font-weight: 500 !important;
       transition: all 0.3s ease !important;
+    }
+
+    .markdown-section a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--terminal-cyan);
+      transition: width 0.3s ease;
     }
 
     .markdown-section a:hover {
       color: var(--terminal-green) !important;
-      border-bottom-color: var(--terminal-green) !important;
-      text-shadow: 0 0 5px rgba(57, 211, 83, 0.5) !important;
+      text-shadow: 0 0 8px rgba(0, 255, 136, 0.5) !important;
     }
 
-    /* === BLOCS DE CODE === */
+    .markdown-section a:hover::after {
+      width: 100%;
+      background: var(--terminal-green);
+      box-shadow: 0 0 8px var(--terminal-green);
+    }
+
+    /* === BLOCS DE CODE AMÉLIORÉS === */
     .markdown-section pre {
       background: var(--terminal-surface) !important;
       border: 1px solid var(--terminal-border) !important;
-      border-radius: 6px !important;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.3) !important;
+      border-radius: 12px !important;
+      padding: 20px !important;
+      margin: 25px 0 !important;
+      position: relative !important;
+      overflow: hidden !important;
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
     }
 
-    .markdown-section code {
-      background: var(--terminal-surface) !important;
-      color: var(--terminal-green) !important;
-      padding: 2px 6px !important;
-      border-radius: 3px !important;
-      font-family: 'Fira Code', monospace !important;
-      border: 1px solid var(--terminal-border) !important;
+    .markdown-section pre::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: var(--terminal-surface-light);
+      border-bottom: 1px solid var(--terminal-border);
+    }
+
+    .markdown-section pre::after {
+      content: '● ● ●';
+      position: absolute;
+      top: 12px;
+      left: 15px;
+      color: var(--terminal-gray);
+      font-size: 12px;
+      letter-spacing: 5px;
     }
 
     .markdown-section pre code {
       color: var(--terminal-white) !important;
       background: transparent !important;
       border: none !important;
+      padding-top: 30px !important;
+      display: block !important;
+      font-family: 'Fira Code', monospace !important;
+      font-size: 0.9rem !important;
+      line-height: 1.6 !important;
     }
 
-    /* === LISTES === */
+    .markdown-section code {
+      background: rgba(0, 255, 136, 0.1) !important;
+      color: var(--terminal-green) !important;
+      padding: 4px 8px !important;
+      border-radius: 6px !important;
+      font-family: 'Fira Code', monospace !important;
+      border: 1px solid rgba(0, 255, 136, 0.2) !important;
+      font-size: 0.9rem !important;
+    }
+
+    /* === LISTES MODERNES === */
+    .markdown-section ul {
+      padding-left: 0 !important;
+      list-style: none !important;
+    }
+
     .markdown-section ul li {
       color: var(--terminal-white) !important;
-      margin: 5px 0 !important;
+      margin: 12px 0 !important;
+      padding-left: 30px !important;
+      position: relative !important;
+      line-height: 1.7 !important;
     }
 
-    .markdown-section ul li:before {
-      content: "▸ ";
-      color: var(--terminal-cyan);
-      font-weight: bold;
-      margin-right: 5px;
+    .markdown-section ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 6px;
+      height: 6px;
+      background: var(--terminal-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    /* === BLOCKQUOTES === */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.8; }
+    }
+
+    /* === BLOCKQUOTES STYLE ALERTE === */
     .markdown-section blockquote {
-      background: var(--terminal-surface) !important;
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 107, 107, 0.05)) !important;
       border-left: 4px solid var(--terminal-orange) !important;
       color: var(--terminal-white) !important;
-      padding: 15px 20px !important;
-      margin: 20px 0 !important;
-      border-radius: 0 6px 6px 0 !important;
+      padding: 20px 25px !important;
+      margin: 25px 0 !important;
+      border-radius: 8px !important;
+      position: relative !important;
+      overflow: hidden !important;
+      box-shadow: 
+        0 4px 20px rgba(255, 107, 107, 0.1),
+        inset 0 0 0 1px rgba(255, 107, 107, 0.1) !important;
     }
 
-    .markdown-section blockquote:before {
-      content: "⚠️ ";
+    .markdown-section blockquote::before {
+      content: '⚠';
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
       color: var(--terminal-orange);
-      font-size: 1.2rem;
+      opacity: 0.2;
     }
 
-    /* === TABLEAUX === */
+    .markdown-section blockquote p {
+      margin: 0 !important;
+    }
+
+    /* === TABLEAUX FUTURISTES === */
     .markdown-section table {
       background: var(--terminal-surface) !important;
       border: 1px solid var(--terminal-border) !important;
-      border-radius: 6px !important;
+      border-radius: 12px !important;
       overflow: hidden !important;
+      box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+      margin: 25px 0 !important;
+      width: 100% !important;
     }
 
     .markdown-section table th {
-      background: var(--terminal-border) !important;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 217, 255, 0.1)) !important;
       color: var(--terminal-green) !important;
       font-weight: 600 !important;
       font-family: 'JetBrains Mono', monospace !important;
+      padding: 15px !important;
+      text-align: left !important;
+      border-bottom: 2px solid var(--terminal-border) !important;
+      font-size: 0.9rem !important;
+      letter-spacing: 0.5px !important;
     }
 
     .markdown-section table td {
       color: var(--terminal-white) !important;
-      border-color: var(--terminal-border) !important;
+      border-bottom: 1px solid var(--terminal-border) !important;
+      padding: 12px 15px !important;
+      font-size: 0.95rem !important;
+    }
+
+    .markdown-section table tr:hover {
+      background: rgba(0, 255, 136, 0.05) !important;
+    }
+
+    .markdown-section table tr:last-child td {
+      border-bottom: none !important;
     }
 
     /* === SCROLLBAR PERSONNALISÉE === */
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
     }
 
     ::-webkit-scrollbar-track {
       background: var(--terminal-bg);
+      border-radius: 5px;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: var(--terminal-border);
-      border-radius: 4px;
+      background: linear-gradient(180deg, var(--terminal-green), var(--terminal-cyan));
+      border-radius: 5px;
+      border: 2px solid var(--terminal-bg);
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: var(--terminal-gray);
+      background: linear-gradient(180deg, var(--terminal-green-dark), var(--terminal-cyan-dark));
     }
 
-    /* === BARRE DE RECHERCHE === */
+    /* === BARRE DE RECHERCHE MODERNE === */
     .search input {
       background: var(--terminal-surface) !important;
       border: 1px solid var(--terminal-border) !important;
       color: var(--terminal-white) !important;
-      border-radius: 6px !important;
+      border-radius: 10px !important;
       font-family: 'JetBrains Mono', monospace !important;
+      padding: 12px 20px !important;
+      font-size: 0.9rem !important;
+      transition: all 0.3s ease !important;
     }
 
     .search input:focus {
       border-color: var(--terminal-cyan) !important;
-      box-shadow: 0 0 0 2px rgba(86, 212, 221, 0.2) !important;
+      box-shadow: 
+        0 0 0 3px rgba(0, 217, 255, 0.2),
+        0 0 20px rgba(0, 217, 255, 0.1) !important;
+      outline: none !important;
+    }
+
+    .search input::placeholder {
+      color: var(--terminal-gray) !important;
     }
 
     .search .results-panel {
       background: var(--terminal-surface) !important;
       border: 1px solid var(--terminal-border) !important;
-      border-radius: 6px !important;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+      border-radius: 12px !important;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+      margin-top: 10px !important;
+      overflow: hidden !important;
     }
 
     .search .results-panel .matching-post {
       border-bottom: 1px solid var(--terminal-border) !important;
+      padding: 15px 20px !important;
+      transition: all 0.3s ease !important;
     }
 
     .search .results-panel .matching-post:hover {
-      background: var(--terminal-border) !important;
+      background: rgba(0, 255, 136, 0.05) !important;
+      padding-left: 25px !important;
     }
 
-    /* === RESPONSIVE === */
+    .search .results-panel .matching-post:last-child {
+      border-bottom: none !important;
+    }
+
+    /* === BOUTON COPIER AMÉLIORÉ === */
+    .docsify-copy-code-button {
+      background: var(--terminal-surface) !important;
+      color: var(--terminal-gray) !important;
+      border: 1px solid var(--terminal-border) !important;
+      border-radius: 6px !important;
+      padding: 6px 12px !important;
+      font-size: 0.8rem !important;
+      font-family: 'JetBrains Mono', monospace !important;
+      transition: all 0.3s ease !important;
+      top: 50px !important;
+      right: 15px !important;
+    }
+
+    .docsify-copy-code-button:hover {
+      background: var(--terminal-green) !important;
+      color: var(--terminal-bg) !important;
+      border-color: var(--terminal-green) !important;
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.5) !important;
+    }
+
+    .docsify-copy-code-button.success {
+      background: var(--terminal-green) !important;
+      color: var(--terminal-bg) !important;
+    }
+
+    /* === NAVIGATION RESPONSIVE === */
     @media screen and (max-width: 768px) {
       .sidebar {
         transform: translateX(-300px);
+        width: 280px !important;
       }
       
       .sidebar.open {
@@ -318,42 +608,155 @@
       }
       
       .content {
-        padding: 10px !important;
+        padding: 15px !important;
       }
       
       .markdown-section {
-        padding: 10px !important;
+        padding: 20px !important;
+        border-radius: 12px !important;
+      }
+
+      .markdown-section h1 {
+        font-size: 2rem !important;
+      }
+
+      .markdown-section h2 {
+        font-size: 1.5rem !important;
       }
     }
 
-    /* === EFFETS SPÉCIAUX === */
-    .sidebar, .content {
-      animation: fadeIn 0.5s ease-in;
+    /* === ANIMATIONS D'ENTRÉE === */
+    .sidebar {
+      animation: slideInLeft 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    .markdown-section {
+      animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    /* Effet de frappe pour le titre */
-    @keyframes typing {
-      from { width: 0; }
-      to { width: 100%; }
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
-    .app-name-link {
-      animation: typing 2s steps(20, end);
-      overflow: hidden;
-      white-space: nowrap;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === EFFET HOVER POUR LES CARTES === */
+    .markdown-section > * {
+      transition: transform 0.2s ease;
+    }
+
+    /* === BADGES ET TAGS === */
+    .markdown-section .badge,
+    .markdown-section .tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin: 0 4px;
+    }
+
+    .markdown-section .badge-success,
+    .markdown-section .tag-success {
+      background: rgba(0, 255, 136, 0.2);
+      color: var(--terminal-green);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .markdown-section .badge-info,
+    .markdown-section .tag-info {
+      background: rgba(0, 217, 255, 0.2);
+      color: var(--terminal-cyan);
+      border: 1px solid rgba(0, 217, 255, 0.3);
+    }
+
+    .markdown-section .badge-warning,
+    .markdown-section .tag-warning {
+      background: rgba(255, 217, 61, 0.2);
+      color: var(--terminal-yellow);
+      border: 1px solid rgba(255, 217, 61, 0.3);
+    }
+
+    .markdown-section .badge-danger,
+    .markdown-section .tag-danger {
+      background: rgba(255, 107, 107, 0.2);
+      color: var(--terminal-orange);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    /* === AMÉLIORATIONS POUR LES IMAGES === */
+    .markdown-section img {
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      margin: 20px 0;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* === HR STYLE NÉON === */
+    .markdown-section hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--terminal-green), var(--terminal-cyan), transparent);
+      margin: 40px 0;
+      position: relative;
+      overflow: visible;
+    }
+
+    .markdown-section hr::before {
+      content: '◆';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--terminal-bg);
+      color: var(--terminal-green);
+      padding: 0 10px;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
-  <div id="app">⚡ Chargement du terminal...</div>
+  <div id="app">
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh; color: #00ff88; font-family: 'JetBrains Mono', monospace;">
+      <div style="text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 20px; animation: pulse 2s ease-in-out infinite;">⚡</div>
+        <div style="font-size: 1.2rem;">Chargement du terminal...</div>
+        <div style="margin-top: 20px; height: 4px; width: 200px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
+          <div style="height: 100%; width: 50%; background: linear-gradient(90deg, #00ff88, #00d9ff); animation: loading 1.5s ease-in-out infinite;"></div>
+        </div>
+      </div>
+    </div>
+    <style>
+      @keyframes loading {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(300%); }
+      }
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.2); opacity: 0.8; }
+      }
+    </style>
+  </div>
   <script>
     window.$docsify = {
-      name: '⚡ SysAdmin Wiki',
+      name: 'SysAdmin Wiki',
       repo: '',
       loadSidebar: true,
       loadNavbar: false,
@@ -366,38 +769,177 @@
       },
       search: {
         maxAge: 86400000,
-        placeholder: '🔍 Rechercher dans le wiki...',
-        noData: '❌ Aucun résultat trouvé',
+        placeholder: '🔍 Rechercher...',
+        noData: 'Aucun résultat trouvé',
         depth: 4,
         paths: 'auto',
         hideOtherSidebarContent: false
       },
       copyCode: {
-        buttonText: '📋 Copier',
-        errorText: '❌ Erreur',
-        successText: '✅ Copié !'
+        buttonText: 'Copier',
+        errorText: 'Erreur',
+        successText: 'Copié !'
       },
       plugins: [
         function(hook) {
-          // Ajouter des icônes et améliorations
+          // Animation au chargement de chaque page
           hook.doneEach(function() {
-            // Ajouter des icônes aux titres selon le contenu
+            // Animer les éléments
+            const elements = document.querySelectorAll('.markdown-section > *');
+            elements.forEach((el, index) => {
+              el.style.opacity = '0';
+              el.style.transform = 'translateY(20px)';
+              setTimeout(() => {
+                el.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+              }, index * 50);
+            });
+
+            // Ajouter des icônes contextuelles aux titres
             const headings = document.querySelectorAll('h1, h2, h3');
             headings.forEach(heading => {
               const text = heading.textContent.toLowerCase();
+              let icon = '';
+              
               if (text.includes('server') || text.includes('serveur')) {
-                heading.innerHTML = '🖥️ ' + heading.innerHTML;
+                icon = '🖥️ ';
               } else if (text.includes('network') || text.includes('réseau')) {
-                heading.innerHTML = '🌐 ' + heading.innerHTML;
+                icon = '🌐 ';
               } else if (text.includes('security') || text.includes('sécurité')) {
-                heading.innerHTML = '🔒 ' + heading.innerHTML;
+                icon = '🔒 ';
               } else if (text.includes('backup') || text.includes('sauvegarde')) {
-                heading.innerHTML = '💾 ' + heading.innerHTML;
+                icon = '💾 ';
               } else if (text.includes('monitor') || text.includes('surveillance')) {
-                heading.innerHTML = '📊 ' + heading.innerHTML;
+                icon = '📊 ';
+              } else if (text.includes('docker') || text.includes('container')) {
+                icon = '🐳 ';
+              } else if (text.includes('database') || text.includes('base de données')) {
+                icon = '🗄️ ';
+              } else if (text.includes('cloud')) {
+                icon = '☁️ ';
+              } else if (text.includes('script') || text.includes('automation')) {
+                icon = '🤖 ';
+              } else if (text.includes('performance')) {
+                icon = '⚡ ';
+              }
+              
+              if (icon && !heading.innerHTML.includes(icon)) {
+                heading.innerHTML = icon + heading.innerHTML;
               }
             });
+
+            // Améliorer les blocs de code avec des titres de langage
+            const codeBlocks = document.querySelectorAll('pre[data-lang]');
+            codeBlocks.forEach(block => {
+              const lang = block.getAttribute('data-lang');
+              if (lang && !block.querySelector('.code-lang-label')) {
+                const label = document.createElement('div');
+                label.className = 'code-lang-label';
+                label.textContent = lang.toUpperCase();
+                label.style.cssText = `
+                  position: absolute;
+                  top: 10px;
+                  right: 60px;
+                  background: var(--terminal-green);
+                  color: var(--terminal-bg);
+                  padding: 2px 8px;
+                  border-radius: 4px;
+                  font-size: 0.7rem;
+                  font-weight: 600;
+                  font-family: 'JetBrains Mono', monospace;
+                  z-index: 10;
+                `;
+                block.style.position = 'relative';
+                block.appendChild(label);
+              }
+            });
+
+            // Ajouter un effet de survol aux images
+            const images = document.querySelectorAll('.markdown-section img');
+            images.forEach(img => {
+              img.style.cursor = 'pointer';
+              img.style.transition = 'all 0.3s ease';
+              img.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+                this.style.boxShadow = '0 12px 40px rgba(0, 0, 0, 0.4)';
+              });
+              img.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+                this.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.3)';
+              });
+            });
           });
+
+          // Effet de particules au scroll (optionnel, léger)
+          let particles = [];
+          const createParticle = () => {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+              position: fixed;
+              width: 2px;
+              height: 2px;
+              background: var(--terminal-green);
+              pointer-events: none;
+              opacity: 0.5;
+              z-index: 1;
+              border-radius: 50%;
+              box-shadow: 0 0 6px var(--terminal-green);
+            `;
+            document.body.appendChild(particle);
+            
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.scrollY + window.innerHeight;
+            particle.style.left = startX + 'px';
+            particle.style.top = startY + 'px';
+            
+            particles.push({
+              element: particle,
+              x: startX,
+              y: startY,
+              vx: (Math.random() - 0.5) * 2,
+              vy: -Math.random() * 3 - 1,
+              life: 100
+            });
+          };
+
+          let particleInterval;
+          window.addEventListener('scroll', () => {
+            if (!particleInterval) {
+              particleInterval = setInterval(() => {
+                if (particles.length < 10) {
+                  createParticle();
+                }
+              }, 200);
+              
+              setTimeout(() => {
+                clearInterval(particleInterval);
+                particleInterval = null;
+              }, 1000);
+            }
+          });
+
+          // Animation des particules
+          const animateParticles = () => {
+            particles = particles.filter(particle => {
+              particle.x += particle.vx;
+              particle.y += particle.vy;
+              particle.life--;
+              
+              particle.element.style.left = particle.x + 'px';
+              particle.element.style.top = particle.y + 'px';
+              particle.element.style.opacity = particle.life / 200;
+              
+              if (particle.life <= 0) {
+                particle.element.remove();
+                return false;
+              }
+              return true;
+            });
+            
+            requestAnimationFrame(animateParticles);
+          };
+          animateParticles();
         }
       ]
     }
@@ -407,13 +949,149 @@
   <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code"></script>
 
-  <!-- Prism.js avec thème sombre -->
+  <!-- Prism.js avec thème personnalisé -->
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-powershell.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-docker.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+  <!-- Style Prism personnalisé -->
+  <style>
+    /* Personnalisation de la coloration syntaxique */
+    .token.comment,
+    .token.block-comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+      color: var(--terminal-gray);
+    }
+
+    .token.punctuation {
+      color: var(--terminal-white);
+    }
+
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+      color: var(--terminal-orange);
+    }
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+      color: var(--terminal-green);
+    }
+
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+      color: var(--terminal-cyan);
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+      color: var(--terminal-purple);
+    }
+
+    .token.function,
+    .token.class-name {
+      color: var(--terminal-yellow);
+    }
+
+    .token.regex,
+    .token.important,
+    .token.variable {
+      color: var(--terminal-orange);
+    }
+
+    /* Classes spéciales pour les badges dans le markdown */
+    .info-box, .warning-box, .success-box, .danger-box {
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid;
+    }
+
+    .info-box {
+      background: rgba(0, 217, 255, 0.1);
+      border-color: rgba(0, 217, 255, 0.3);
+      color: var(--terminal-white);
+    }
+
+    .info-box::before {
+      content: 'ℹ️ INFO';
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: var(--terminal-cyan);
+      font-weight: 600;
+    }
+
+    .warning-box {
+      background: rgba(255, 217, 61, 0.1);
+      border-color: rgba(255, 217, 61, 0.3);
+      color: var(--terminal-white);
+    }
+
+    .warning-box::before {
+      content: '⚠️ ATTENTION';
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: var(--terminal-yellow);
+      font-weight: 600;
+    }
+
+    .success-box {
+      background: rgba(0, 255, 136, 0.1);
+      border-color: rgba(0, 255, 136, 0.3);
+      color: var(--terminal-white);
+    }
+
+    .success-box::before {
+      content: '✅ SUCCÈS';
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: var(--terminal-green);
+      font-weight: 600;
+    }
+
+    .danger-box {
+      background: rgba(255, 107, 107, 0.1);
+      border-color: rgba(255, 107, 107, 0.3);
+      color: var(--terminal-white);
+    }
+
+    .danger-box::before {
+      content: '🚨 DANGER';
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: var(--terminal-orange);
+      font-weight: 600;
+    }
+  </style>
 
 </body>
 </html>
